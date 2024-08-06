@@ -41,6 +41,16 @@ class SpaceWar():
             self.spaceshipxy[0] -= 1
         if key_pressed[pygame.K_d]:
             self.spaceshipxy[0] += 1    
+            
+        if self.spaceshipxy[0] <0:
+            self.spaceshipxy[0] = 0
+        if self.spaceshipxy[0] >1275:
+            self.spaceshipxy[0] = 1275
+        if self.spaceshipxy[1] <0:
+            self.spaceshipxy[1] = 0
+        if self.spaceshipxy[1] >650:
+            self.spaceshipxy[1] = 650
+        
         if key_pressed[pygame.K_SPACE]:
             self.ragers.append(rager(self.screen,(self.spaceshipxy[0],self.spaceshipxy[1]+54)))      
             
