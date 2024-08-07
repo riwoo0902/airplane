@@ -1,8 +1,8 @@
 import pygame
-class redspaceship():
+class Redspaceship():
     
     
-    def __init__(self, screen,rec):#ret : 화살이 시작될 위치값
+    def __init__(self, screen,rec):
         self.screen = screen
         self.redspaceship = pygame.image.load('./images/redspaceship.png').convert_alpha()
         self.redspaceship = pygame.transform.scale(self.redspaceship, (150,100))

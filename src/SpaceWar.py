@@ -1,32 +1,22 @@
 import pygame
 import random
 from pygame.locals import *
-from rager import *
 from redspaceship import *
+from spaceship import *
+from backgrond import *
 class SpaceWar():
     run = True
     WIDTH = 1500
     HEIGHT = 800
-    backgrondxy = [0,0]
-    backgrondxy2 = [-WIDTH,0]
-    spaceshipxy = [1000,350]
-    ragers = []
     redspaceships = []
-    lagertime1 = 0
-    lagertime2 = 0
     summontime = 0
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("SpaceWar")
         self.clock = pygame.time.Clock()
         self.screen = pygame.display.set_mode((self.WIDTH, self.HEIGHT)) 
-        self.backgrond = pygame.image.load('./images/background.png').convert_alpha()
-        self.backgrond = pygame.transform.scale(self.backgrond, (self.WIDTH,self.HEIGHT))
-        self.spaceship = pygame.image.load('./images/spaceship.png').convert_alpha()
-        self.spaceship = pygame.transform.scale(self.spaceship, (225,150))
-        
-        
-        
+        self.spaceship = Spaceship(self.screen)
+        self.bg = Backgrond(self.screen)
         
     #이벤트 확인 및 처리 함수
     def eventkey(self):
@@ -36,75 +26,23 @@ class SpaceWar():
                 
             if event.type == pygame.KEYDOWN:#키를 눌렀을때
                 if event.key == pygame.K_ESCAPE:
-                    self.run = False
-        key_pressed = pygame.key.get_pressed()  
-        if key_pressed[pygame.K_w]:
-            self.spaceshipxy[1] -= 1
-        if key_pressed[pygame.K_s]:
-            self.spaceshipxy[1] += 1
-        if key_pressed[pygame.K_a]:
-            self.spaceshipxy[0] -= 1
-        if key_pressed[pygame.K_d]:
-            self.spaceshipxy[0] += 1    
-            
-        if self.spaceshipxy[0] <0:
-            self.spaceshipxy[0] = 0
-        if self.spaceshipxy[0] >1275:
-            self.spaceshipxy[0] = 1275
-        if self.spaceshipxy[1] <0:
-            self.spaceshipxy[1] = 0
-        if self.spaceshipxy[1] >650:
-            self.spaceshipxy[1] = 650
-        
-        
-        
-        
-        if key_pressed[pygame.K_SPACE]:
-            self.lagertime2 =pygame.time.get_ticks()
-            #1개의 화살을 생성                  
-            if self.lagertime2 - self.lagertime1 >= 1000:
-                self.lagertime1 =pygame.time.get_ticks()
-                #화살 시작될 위치
-                self.ragers.append(rager(self.screen,(self.spaceshipxy[0],self.spaceshipxy[1]+54))) 
-        else:
-            self.lagertime2 =pygame.time.get_ticks()
-         
-    def backgrondmove(self):
-        self.backgrondxy[0] += 0.5
-        self.backgrondxy2[0] += 0.5
-        if self.backgrondxy[0] == self.WIDTH:
-            self.backgrondxy = [0,0]
-            self.backgrondxy2 = [-self.WIDTH,0]
-        self.screen.blit(self.backgrond, self.backgrondxy)
-        self.screen.blit(self.backgrond, self.backgrondxy2)
-        
-    def drawairplane(self):
-        self.screen.blit(self.spaceship,self.spaceshipxy)
-    
-    def ragermove(self):
-        for i, rager in enumerate(self.ragers):
-            if rager.draw():  
-                del self.ragers[i] 
-    
-    def redspaceshipsummon(self):
+                    self.run = False                
+                            
+    def redspaceshipmove(self):        
         if pygame.time.get_ticks() - self.summontime >= 3000:
             self.summontime = pygame.time.get_ticks()
-            self.redspaceships.append(redspaceship(self.screen,(-225,random.randint(0,700)))) 
-            
-    def redspaceshipmove(self):
-        for i, redspaceship in enumerate(self.redspaceships):
-            if redspaceship.draw():  
+            self.redspaceships.append(Redspaceship(self.screen,(-225,random.randint(0,700))))   
+                      
+        for i, ship in enumerate(self.redspaceships):
+            if ship.draw():  
                 del self.redspaceships[i] 
                 
     def loop(self):
         while self.run:
-            self.screen.fill((255, 255, 255)) 
+            self.bg.draw()
             self.eventkey() 
-            self.backgrondmove()
-            self.ragermove()
-            self.redspaceshipsummon()
             self.redspaceshipmove()
-            self.drawairplane()
+            self.spaceship.draw()            
             pygame.display.update() 
             self.clock.tick(400) 
 
