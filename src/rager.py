@@ -1,7 +1,7 @@
 import pygame
 
 class rager():
-    def __init__(self, screen,rec):#ret : 화살이 시작될 위치값
+    def __init__(self, screen,rec):
         self.screen = screen
         self.rager = pygame.image.load('./images/rager.png').convert_alpha()
         self.rager = pygame.transform.scale(self.rager, (90,40))

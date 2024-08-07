@@ -1,7 +1,8 @@
 import pygame
+import random
 from pygame.locals import *
 from rager import *
-
+from redspaceship import *
 class SpaceWar():
     run = True
     WIDTH = 1500
@@ -10,6 +11,10 @@ class SpaceWar():
     backgrondxy2 = [-WIDTH,0]
     spaceshipxy = [1000,350]
     ragers = []
+    redspaceships = []
+    lagertime1 = 0
+    lagertime2 = 0
+    summontime = 0
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("SpaceWar")
@@ -51,9 +56,19 @@ class SpaceWar():
         if self.spaceshipxy[1] >650:
             self.spaceshipxy[1] = 650
         
+        
+        
+        
         if key_pressed[pygame.K_SPACE]:
-            self.ragers.append(rager(self.screen,(self.spaceshipxy[0],self.spaceshipxy[1]+54)))      
-            
+            self.lagertime2 =pygame.time.get_ticks()
+            #1개의 화살을 생성                  
+            if self.lagertime2 - self.lagertime1 >= 1000:
+                self.lagertime1 =pygame.time.get_ticks()
+                #화살 시작될 위치
+                self.ragers.append(rager(self.screen,(self.spaceshipxy[0],self.spaceshipxy[1]+54))) 
+        else:
+            self.lagertime2 =pygame.time.get_ticks()
+         
     def backgrondmove(self):
         self.backgrondxy[0] += 0.5
         self.backgrondxy2[0] += 0.5
@@ -68,14 +83,27 @@ class SpaceWar():
     
     def ragermove(self):
         for i, rager in enumerate(self.ragers):
-            if rager.draw():  #이동하며 그린다.
-                del self.ragers[i] #삭제
+            if rager.draw():  
+                del self.ragers[i] 
+    
+    def redspaceshipsummon(self):
+        if pygame.time.get_ticks() - self.summontime >= 3000:
+            self.summontime = pygame.time.get_ticks()
+            self.redspaceships.append(redspaceship(self.screen,(-225,random.randint(0,700)))) 
+            
+    def redspaceshipmove(self):
+        for i, redspaceship in enumerate(self.redspaceships):
+            if redspaceship.draw():  
+                del self.redspaceships[i] 
+                
     def loop(self):
         while self.run:
             self.screen.fill((255, 255, 255)) 
             self.eventkey() 
             self.backgrondmove()
             self.ragermove()
+            self.redspaceshipsummon()
+            self.redspaceshipmove()
             self.drawairplane()
             pygame.display.update() 
             self.clock.tick(400) 
