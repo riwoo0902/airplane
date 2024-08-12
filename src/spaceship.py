@@ -55,12 +55,25 @@ class Spaceship():
                 self.ragers.append(rager(self.screen,(self.rec.x,self.rec.y+54))) 
         else:
             self.lagertime2 =pygame.time.get_ticks()
-        
     def ragermove(self):
         for i, rager in enumerate(self.ragers):
             if rager.draw():  
                 del self.ragers[i] 
-                
+            else:
+                pass   
+    def checkCollision(self, ragers,damage): #충돌했는지 확인
+        for i, arr in enumerate(ragers):            
+            if self.rec.colliderect(arr.rec):
+                centerx = arr.rec.centerx
+                centery = arr.rec.centery
+                self.hp -= damage
+                return centerx,centery,i
+        return None,None,None
+    def gameover(self):
+        if self.hp <= 0:
+            return False
+        return True
+    
     def draw(self):
         self.eventkey()
         self.ragermove()
