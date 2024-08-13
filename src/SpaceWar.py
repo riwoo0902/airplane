@@ -31,16 +31,14 @@ class SpaceWar():
                 if event.key == pygame.K_ESCAPE:
                     self.run = False                
         self.run = self.spaceship.gameover()
-   
+    
+    
     def loop(self):
         while self.run:
             self.eventkey() 
             self.bg.draw()
-            
             self.actutus.draw()
-            
             self.spaceship.draw()    
-                    
             pygame.display.update() 
             self.clock.tick(200) 
 

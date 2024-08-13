@@ -5,15 +5,18 @@ from config import *
 
 class Spaceship():
     
-
+    
     ragers = []
     def __init__(self, screen,con):
         self.screen = screen
         self.img = pygame.image.load('./images/spaceship.png').convert_alpha()
-        self.img = pygame.transform.scale(self.img, (225,150))
-        self.con = con
-        self.con
+        self.img = pygame.transform.scale(self.img, (250,150))
+        self.hpimg = pygame.image.load("./images/hp.png")
+        self.hpimg2 = pygame.image.load("./images/hp1.png")
+        self.con = con        
+        self.level = self.con['level']
         self.hp = self.con['HP']
+        self.maxhp = self.con['maxHP']
         self.damage = self.con['damage']
         self.speed = self.con['speed']
         self.defense = self.con['defense']
@@ -21,6 +24,7 @@ class Spaceship():
         self.nol = self.con['nol']
         self.reincarnation = self.con['reincarnation']
         self.luck = self.con['luck']
+        self.experience = self.con['experience']
         self.rec = self.img.get_rect()
         self.rec.x = 1000 
         self.rec.y = 350
@@ -40,8 +44,8 @@ class Spaceship():
             
         if self.rec.x <0:
             self.rec.x = 0
-        if self.rec.x >1275:
-            self.rec.x = 1275
+        if self.rec.x >1250:
+            self.rec.x = 1250
         if self.rec.y <0:
             self.rec.y = 0
         if self.rec.y >650:
@@ -69,6 +73,20 @@ class Spaceship():
                 self.hp -= damage
                 return centerx,centery,i
         return None,None,None
+    
+    def drawhp(self):
+        self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.maxhp)*300), 25))  
+        self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
+        self.screen.blit(self.img_hp2, (10,20))                                
+        self.screen.blit(self.img_hp, (20,30))
+        
+    def levelup(self,experience):
+        self.experience += experience
+        if self.level+10 <= self.experience:
+            self.experience -= self.level+10
+            self.level += 1
+        print(self.level,self.experience)
+    
     def gameover(self):
         if self.hp <= 0:
             return False
@@ -77,4 +95,6 @@ class Spaceship():
     def draw(self):
         self.eventkey()
         self.ragermove()
+        self.drawhp()
         self.screen.blit(self.img, self.rec)
+

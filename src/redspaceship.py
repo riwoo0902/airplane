@@ -22,7 +22,7 @@ class Redspaceship():
                 self.hp -= damage
                 return centerx,centery,i
         return None,None,None
-        
+
     def draw(self):
         if (self.rec.x) < 1500:  
             self.rec.x += self.speed
