@@ -3,6 +3,7 @@ import random
 from arctutus import *
 from redspaceship import *
 from spaceship import *
+from config import *
 class Arctutus():
     redspaceships = []
     summontime = 0
@@ -23,7 +24,7 @@ class Arctutus():
             if ship.draw():
                 del self.redspaceships[i] 
             else:
-                centerx,centery,rager_idex = ship.checkCollision(self.spaceship.ragers,self.spaceship.damage)
+                centerx,centery,rager_idex = ship.checkCollision(self.spaceship.ragers,self.spaceship.con['damage'])
                 if centerx != None:
                     del self.spaceship.ragers[rager_idex]
                     if ship.hp <= 0:
@@ -31,7 +32,7 @@ class Arctutus():
                         self.spaceship.levelup()
                 else:
                     if ship.rec.colliderect(self.spaceship.rec):
-                        self.spaceship.hp -= ship.hp
+                        self.spaceship.con['HP'] -= ship.hp
                         del self.redspaceships[i] 
                         
     def draw(self):

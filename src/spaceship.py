@@ -14,17 +14,17 @@ class Spaceship():
         self.hpimg = pygame.image.load("./images/hp.png")
         self.hpimg2 = pygame.image.load("./images/hp1.png")
         self.con = con        
-        self.level = self.con['level']
-        self.hp = self.con['HP']
-        self.maxhp = self.con['maxHP']
-        self.damage = self.con['damage']
-        self.speed = self.con['speed']
-        self.defense = self.con['defense']
-        self.attackspeed = self.con['attackspeed']
-        self.nol = self.con['nol']
-        self.reincarnation = self.con['reincarnation']
-        self.luck = self.con['luck']
-        self.experience = self.con['experience']
+        # self.level = self.con['level']
+        # self.hp = self.con['HP']
+        # self.maxhp = self.con['maxHP']
+        # self.damage = self.con['damage']
+        # self.speed = self.con['speed']
+        # self.defense = self.con['defense']
+        # self.attackspeed = self.con['attackspeed']
+        # self.nol = self.con['nol']
+        # self.reincarnation = self.con['reincarnation']
+        # self.luck = self.con['luck']
+        # self.experience = self.con['experience']
         self.rec = self.img.get_rect()
         self.rec.x = 1000 
         self.rec.y = 350
@@ -34,13 +34,13 @@ class Spaceship():
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
         if key_pressed[pygame.K_w]:
-            self.rec.y -= self.speed 
+            self.rec.y -= self.con['speed']
         if key_pressed[pygame.K_s]:
-            self.rec.y += self.speed 
+            self.rec.y += self.con['speed'] 
         if key_pressed[pygame.K_a]:
-            self.rec.x -= self.speed 
+            self.rec.x -= self.con['speed'] 
         if key_pressed[pygame.K_d]:
-            self.rec.x += self.speed 
+            self.rec.x += self.con['speed'] 
             
         if self.rec.x <0:
             self.rec.x = 0
@@ -70,25 +70,25 @@ class Spaceship():
             if self.rec.colliderect(arr.rec):
                 centerx = arr.rec.centerx
                 centery = arr.rec.centery
-                self.hp -= damage
+                self.hp -= self.con['damage']
                 return centerx,centery,i
         return None,None,None
     
     def drawhp(self):
-        self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.maxhp)*300), 25))  
+        self.img_hp = pygame.transform.scale(self.hpimg ,(((self.con['HP']/self.con['maxHP'])*300), 25))  
         self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
         self.screen.blit(self.img_hp2, (10,20))                                
         self.screen.blit(self.img_hp, (20,30))
         
     def levelup(self):
-        self.experience += 1
-        if self.level+5 <= self.experience:
-            self.experience -= self.level+5
-            self.level += 1
-        print(self.level,self.experience)
+        self.con['experience'] += 1
+        if self.con['level']+5 <= self.con['experience']:
+            self.con['experience'] -= self.con['level']+5
+            self.con['level'] += 1
+        print(self.con['level'],self.con['experience'])
     
     def gameover(self):
-        if self.hp <= 0:
+        if self.con['HP'] <= 0:
             return False
         return True
     

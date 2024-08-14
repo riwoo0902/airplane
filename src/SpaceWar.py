@@ -24,7 +24,7 @@ class SpaceWar():
         self.spaceship = Spaceship(self.screen,self.con.spaceship)
         self.actutus = Arctutus(self.screen,self.con,self.spaceship)
         self.bg = Backgrond(self.screen)
-        self.status = Status(self.screen,(0,0))
+        self.status = Status(self.screen,(0,0),self.con.spaceship)
         
     #이벤트 확인 및 처리 함수
     def eventkey(self):
