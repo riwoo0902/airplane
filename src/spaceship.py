@@ -80,10 +80,10 @@ class Spaceship():
         self.screen.blit(self.img_hp2, (10,20))                                
         self.screen.blit(self.img_hp, (20,30))
         
-    def levelup(self,experience):
-        self.experience += experience
-        if self.level+10 <= self.experience:
-            self.experience -= self.level+10
+    def levelup(self):
+        self.experience += 1
+        if self.level+5 <= self.experience:
+            self.experience -= self.level+5
             self.level += 1
         print(self.level,self.experience)
     

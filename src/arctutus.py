@@ -28,7 +28,7 @@ class Arctutus():
                     del self.spaceship.ragers[rager_idex]
                     if ship.hp <= 0:
                         del self.redspaceships[i]
-
+                        self.spaceship.levelup()
                 else:
                     if ship.rec.colliderect(self.spaceship.rec):
                         self.spaceship.hp -= ship.hp

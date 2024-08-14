@@ -6,10 +6,14 @@ from  redspaceship import *
 from spaceship import *
 from backgrond import *
 from arctutus import *
+from status import *
+
 class SpaceWar():
     run = True
     WIDTH = 1500
-    HEIGHT = 800    
+    HEIGHT = 800
+    statusActivation = 0
+    
     
     def __init__(self) -> None:
         pygame.init()
@@ -20,6 +24,7 @@ class SpaceWar():
         self.spaceship = Spaceship(self.screen,self.con.spaceship)
         self.actutus = Arctutus(self.screen,self.con,self.spaceship)
         self.bg = Backgrond(self.screen)
+        self.status = Status(self.screen,(0,0))
         
     #이벤트 확인 및 처리 함수
     def eventkey(self):
@@ -29,16 +34,26 @@ class SpaceWar():
                 
             if event.type == pygame.KEYDOWN:#키를 눌렀을때
                 if event.key == pygame.K_ESCAPE:
-                    self.run = False                
+                    self.run = False   
+                if event.key == pygame.K_e:
+                    if self.statusActivation == 0:
+                        self.statusActivation = 1
+                    else:
+                        self.statusActivation = 0
+                    
         self.run = self.spaceship.gameover()
-    
-    
+        
+        
     def loop(self):
         while self.run:
             self.eventkey() 
-            self.bg.draw()
-            self.actutus.draw()
-            self.spaceship.draw()    
+            if self.statusActivation == 1:
+                self.status.draw()
+            else:
+                self.bg.draw()
+                self.actutus.draw()
+                self.spaceship.draw()    
+
             pygame.display.update() 
             self.clock.tick(200) 
 
