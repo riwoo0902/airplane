@@ -18,7 +18,7 @@ class Arctutus():
     def redspaceshipmove(self):        
         if pygame.time.get_ticks() - self.summontime >= 3000:
             self.summontime = pygame.time.get_ticks()
-            self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(0,700))))   
+            self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700))))
 
         for i, ship in enumerate(self.redspaceships):
             if ship.draw():

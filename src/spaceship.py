@@ -9,6 +9,7 @@ class Spaceship():
     ragers = []
     def __init__(self, screen,con):
         self.screen = screen
+        self.Font = pygame.font.SysFont(None, 50)
         self.img = pygame.image.load('./images/spaceship.png').convert_alpha()
         self.img = pygame.transform.scale(self.img, (250,150))
         self.hpimg = pygame.image.load("./images/hp.png")
@@ -54,7 +55,7 @@ class Spaceship():
         if key_pressed[pygame.K_SPACE]:
             self.lagertime2 =pygame.time.get_ticks()
            
-            if self.lagertime2 - self.lagertime1 >= 1000:
+            if self.lagertime2 - self.lagertime1 >= self.con['attackspeed']:
                 self.lagertime1 =pygame.time.get_ticks()
                 self.ragers.append(rager(self.screen,(self.rec.x,self.rec.y+54))) 
         else:
@@ -77,15 +78,20 @@ class Spaceship():
     def drawhp(self):
         self.img_hp = pygame.transform.scale(self.hpimg ,(((self.con['HP']/self.con['maxHP'])*300), 25))  
         self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
-        self.screen.blit(self.img_hp2, (10,20))                                
-        self.screen.blit(self.img_hp, (20,30))
+        self.Text = self.Font.render("level:" + str(self.con['level']), True, (120,120,120))
+        self.Text2 = self.Font.render("point:" + str(self.con['point']), True, (120,120,120))
+        self.screen.blit(self.img_hp2, (10,20))   
+        self.screen.blit(self.img_hp, (20,30))                             
+        self.screen.blit(self.Text, (400,20))
+        self.screen.blit(self.Text2, (600,20))
+        
         
     def levelup(self):
         self.con['experience'] += 1
         if self.con['level']+5 <= self.con['experience']:
             self.con['experience'] -= self.con['level']+5
             self.con['level'] += 1
-        print(self.con['level'],self.con['experience'])
+            self.con['point'] += self.con['luck']
     
     def gameover(self):
         if self.con['HP'] <= 0:
@@ -95,6 +101,7 @@ class Spaceship():
     def draw(self):
         self.eventkey()
         self.ragermove()
-        self.drawhp()
         self.screen.blit(self.img, self.rec)
+
+        
 

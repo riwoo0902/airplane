@@ -47,13 +47,13 @@ class SpaceWar():
     def loop(self):
         while self.run:
             self.eventkey() 
+            self.bg.draw()
             if self.statusActivation == 1:
                 self.status.draw()
             else:
-                self.bg.draw()
                 self.actutus.draw()
                 self.spaceship.draw()    
-
+            self.spaceship.drawhp()
             pygame.display.update() 
             self.clock.tick(200) 
 
