@@ -4,10 +4,12 @@ from arctutus import *
 from redspaceship import *
 from spaceship import *
 from config import *
+from weapon import *
 class Arctutus():
     redspaceships = []
     summontime = 0
     experience = 0
+    dam = 0
     def __init__(self,screen,con,spaceship) -> None:
         self.screen = screen
         self.con = con
@@ -30,10 +32,20 @@ class Arctutus():
                     if ship.hp <= 0:
                         del self.redspaceships[i]
                         self.spaceship.levelup()
+                        self.weapondrop()
+                        
                 else:
                     if ship.rec.colliderect(self.spaceship.rec):
-                        self.spaceship.con['HP'] -= ship.hp
+                        self.dam = ship.hp - self.spaceship.con['defense']
+                        if self.dam < 1:
+                            self.dam = 1
+                        self.spaceship.con['HP'] -= self.dam
+                        print(self.dam)
                         del self.redspaceships[i] 
+                        
+    def weapondrop(self):
+        if random.randint(1,20000/self.spaceship.con['luck']) == 1:
+            print('weapondrop')       
                         
     def draw(self):
         self.redspaceshipmove()

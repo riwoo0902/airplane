@@ -11,7 +11,7 @@ class Confing():
     'defense':0,
     'attackspeed':1000,
     'nol': 1, #발사개수 
-    'luck':5,
+    'luck':20000,
     'experience':0,
     'point':0
     }

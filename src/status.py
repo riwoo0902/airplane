@@ -11,39 +11,36 @@ class Status():
         self.rec.x = rec[0] 
         self.rec.y = rec[1]
         self.Font = pygame.font.SysFont(None, 50)
-        self.statusupimg = pygame.image.load('./images/status-.png')
-        self.statusupimg = pygame.transform.scale(self.statusupimg, (60,35))
-        self.statusupimg2 = pygame.image.load('./images/status+.png')
-        self.statusupimg2 = pygame.transform.scale(self.statusupimg2, (60,35))
+        # self.statusupimg = pygame.image.load('./images/status-.png')
+        # self.statusupimg = pygame.transform.scale(self.statusupimg, (60,30))
+        self.statusupimg = pygame.image.load('./images/status+.png')
+        self.statusupimg = pygame.transform.scale(self.statusupimg, (60,30))
         
     def statusup(self):
         pos = pygame.mouse.get_pos()
-        statusupdown = [[self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h],[self.a2,self.b2,self.c2,self.d2,self.e2,self.f2,self.g2,self.h2]]
-        for i in range(2):
-            for l in range(8):
-                if  statusupdown[i][l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
+        statusupdown = [self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h]
+        
+        for l in range(8):
+            if  statusupdown[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
+                if self.con['point'] >= 1:
                     if l == 0:
-                        j = 'maxHP'
+                        self.con['maxHP'] += 5
                     elif l == 1:
-                        j = 'damage'
+                        self.con['damage'] += 1
                     elif l == 2:
-                        j = 'defense'
+                        self.con['defense'] += 1
                     elif l == 3:
-                        j = 'speed'
+                        self.con['speed'] += 0.1
                     elif l == 4:
-                        j = 'attackspeed'
+                        self.con['attackspeed'] -= 5
                     elif l == 5:
-                        j = 'nol'
+                        self.con['nol'] += 0.001
                     elif l == 6:
-                        j = 'reincarnation'
+                        self.con['reincarnation'] += 0.001
                     elif l == 7:
-                        j = 'luck'
+                        self.con['luck'] += 0.2
                         
-                    if i == 0:
-                        pass
-                    elif i == 1:
-                        self.con[j] += 1
-                        self.con['point'] -= 1
+                    self.con['point'] -= 1
                         
 
 
@@ -55,35 +52,27 @@ class Status():
         self.screen.blit(self.Text, (100,200))
         self.Text = self.Font.render("defense:" + str(self.con['defense']), True, (0,0,0))
         self.screen.blit(self.Text, (100,300))
-        self.Text = self.Font.render("speed:" + str(self.con['speed']), True, (0,0,0))
+        self.Text = self.Font.render("speed:" + str(round(self.con['speed'],1)), True, (0,0,0))
         self.screen.blit(self.Text, (100,400))
         self.Text = self.Font.render("attackspeed:" + str(self.con['attackspeed']), True, (0,0,0))
         self.screen.blit(self.Text, (100,500))
-        self.Text = self.Font.render("nol:" + str(self.con['nol']), True, (0,0,0))
+        self.Text = self.Font.render("nol:" + str(round(self.con['nol'],3)), True, (0,0,0))
         self.screen.blit(self.Text, (100,600))
-        self.Text = self.Font.render("reincarnation:" + str(self.con['reincarnation']), True, (0,0,0))
+        self.Text = self.Font.render("reincarnation:" + str(round(self.con['reincarnation'],3)), True, (0,0,0))
         self.screen.blit(self.Text, (100,700))
-        self.Text = self.Font.render("luck:" + str(self.con['luck']), True, (0,0,0))
+        self.Text = self.Font.render("luck:" + str(round(self.con['luck'],1)), True, (0,0,0))
         self.screen.blit(self.Text, (500,100))
         
                                  
-        self.a = self.screen.blit(self.statusupimg, (330,100))
-        self.b = self.screen.blit(self.statusupimg, (330,200))
-        self.c = self.screen.blit(self.statusupimg, (330,300))
-        self.d = self.screen.blit(self.statusupimg, (330,400))
-        self.e = self.screen.blit(self.statusupimg, (430,500))
-        self.f = self.screen.blit(self.statusupimg, (330,600))
-        self.g = self.screen.blit(self.statusupimg, (430,700))
-        self.h = self.screen.blit(self.statusupimg, (650,100))
+        self.a = self.screen.blit(self.statusupimg, (350,100))
+        self.b = self.screen.blit(self.statusupimg, (350,200))
+        self.c = self.screen.blit(self.statusupimg, (350,300))
+        self.d = self.screen.blit(self.statusupimg, (350,400))
+        self.e = self.screen.blit(self.statusupimg, (450,500))
+        self.f = self.screen.blit(self.statusupimg, (350,600))
+        self.g = self.screen.blit(self.statusupimg, (450,700))
+        self.h = self.screen.blit(self.statusupimg, (670,100))
         
-        self.a2 = self.screen.blit(self.statusupimg2, (400,100))
-        self.b2 = self.screen.blit(self.statusupimg2, (400,200))
-        self.c2 = self.screen.blit(self.statusupimg2, (400,300))
-        self.d2 = self.screen.blit(self.statusupimg2, (400,400))
-        self.e2 = self.screen.blit(self.statusupimg2, (500,500))
-        self.f2 = self.screen.blit(self.statusupimg2, (400,600))
-        self.g2 = self.screen.blit(self.statusupimg2, (500,700))
-        self.h2 = self.screen.blit(self.statusupimg2, (720,100))
         self.statusup()
         
         

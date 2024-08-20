@@ -76,6 +76,7 @@ class Spaceship():
         return None,None,None
     
     def drawhp(self):
+        
         self.img_hp = pygame.transform.scale(self.hpimg ,(((self.con['HP']/self.con['maxHP'])*300), 25))  
         self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
         self.Text = self.Font.render("level:" + str(self.con['level']), True, (120,120,120))
@@ -88,8 +89,8 @@ class Spaceship():
         
     def levelup(self):
         self.con['experience'] += 1
-        if self.con['level']+5 <= self.con['experience']:
-            self.con['experience'] -= self.con['level']+5
+        if self.con['level']+2 <= self.con['experience']:
+            self.con['experience'] -= self.con['level']+2
             self.con['level'] += 1
             self.con['point'] += self.con['luck']
     
@@ -99,6 +100,9 @@ class Spaceship():
         return True
     
     def draw(self):
+        self.con['HP'] += self.con['reincarnation']
+        if self.con['HP'] > self.con['maxHP']:
+            self.con['HP'] = self.con['maxHP']
         self.eventkey()
         self.ragermove()
         self.screen.blit(self.img, self.rec)

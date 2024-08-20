@@ -2,12 +2,12 @@ import pygame
 import random
 from pygame.locals import *
 from arctutus import *
-from  redspaceship import *
+from redspaceship import *
 from spaceship import *
 from backgrond import *
 from arctutus import *
 from status import *
-
+from weapon import *
 class SpaceWar():
     run = True
     WIDTH = 1500
