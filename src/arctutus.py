@@ -4,7 +4,7 @@ from arctutus import *
 from redspaceship import *
 from spaceship import *
 from config import *
-from weapon import *
+import math
 class Arctutus():
     redspaceships = []
     summontime = 0
@@ -18,7 +18,7 @@ class Arctutus():
         self.img_redspaceship = pygame.transform.scale(img_redspaceship, (150,75))
         
     def redspaceshipmove(self):        
-        if pygame.time.get_ticks() - self.summontime >= 3000:
+        if pygame.time.get_ticks() - self.summontime >= 2000:
             self.summontime = pygame.time.get_ticks()
             self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700))))
 
@@ -44,7 +44,7 @@ class Arctutus():
                         del self.redspaceships[i] 
                         
     def weapondrop(self):
-        if random.randint(1,20000/self.spaceship.con['luck']) == 1:
+        if random.randint(1,math.trunc(20000/math.trunc(self.spaceship.con['luck']))) == 1:
             print('weapondrop')       
                         
     def draw(self):

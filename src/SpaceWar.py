@@ -9,6 +9,7 @@ from arctutus import *
 from status import *
 from weapon import *
 class SpaceWar():
+    runstart = True
     run = True
     WIDTH = 1500
     HEIGHT = 800
@@ -25,7 +26,6 @@ class SpaceWar():
         self.actutus = Arctutus(self.screen,self.con,self.spaceship)
         self.bg = Backgrond(self.screen)
         self.status = Status(self.screen,(0,0),self.con.spaceship)              
-        
     #이벤트 확인 및 처리 함수
     def eventkey(self):
         for event in pygame.event.get():
@@ -43,7 +43,7 @@ class SpaceWar():
                     
         self.run = self.spaceship.gameover()
         
-        
+
     def loop(self):
         while self.run:
             self.eventkey() 
