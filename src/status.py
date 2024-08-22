@@ -16,7 +16,12 @@ class Status():
         self.Font = pygame.font.SysFont(None, 50)
         self.statusupimg = pygame.image.load('./images/status+.png')
         self.statusupimg = pygame.transform.scale(self.statusupimg, (60,30))
-        
+        self.machinegun = pygame.image.load('./images/machinegun.png').convert_alpha()
+        self.machinegun = pygame.transform.scale(self.machinegun, (150,150))
+        self.ragergun = pygame.image.load('./images/ragergun.png').convert_alpha()
+        self.ragergun = pygame.transform.scale(self.ragergun, (230,60))
+        self.radioactiveemitter = pygame.image.load('./images/radioactiveemitter.png').convert_alpha()
+        self.radioactiveemitter = pygame.transform.scale(self.radioactiveemitter, (100,180))
     def statusup(self):
         pos = pygame.mouse.get_pos()
         statusupdown = [self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h]
@@ -44,12 +49,37 @@ class Status():
                     elif l == 7:
                         self.con['luck'] += 0.2
                         self.con['luck'] = round(self.con['luck'],1)
-                        
                     self.con['point'] -= 1
                     self.con['point'] = round(self.con['point'])
               
-
-
+              
+              
+    def weaponselection(self):
+        if self.con['weapontype'] == 0:
+            if self.con['level'] >= 20:
+                self.screen.blit(self.machinegun,(450,150))
+                self.screen.blit(self.ragergun,(670,190))
+                self.screen.blit(self.radioactiveemitter,(550,440))
+                self.Text = self.Font.render("Choice", True, (0,0,0))
+                self.Text = pygame.transform.scale(self.Text, (100,40))
+                self.a2 = self.screen.blit(self.Text, (480,350))
+                self.b2 = self.screen.blit(self.Text, (730,350))
+                self.c2 = self.screen.blit(self.Text, (550,640))
+                pos = pygame.mouse.get_pos()
+                weaponselection = [self.a2,self.b2,self.c2]
+        
+                for l in range(3):
+                    if  weaponselection[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
+                        self.con['weapontype'] = l+1
+                        print(self.con['weapontype'])
+    def weapondraw(self):
+        pass
+    
+    
+    
+    
+    
+                      
     def draw(self):
         self.screen.blit(self.img, (0,0))
         self.Text = self.Font.render("maxhp:" + str(self.con['maxHP']), True, (0,0,0))
@@ -69,7 +99,6 @@ class Status():
         self.Text = self.Font.render("luck:" + str(self.con['luck']), True, (0,0,0))
         self.screen.blit(self.Text, (500,100))
         
-                                 
         self.a = self.screen.blit(self.statusupimg, (350,100))
         self.b = self.screen.blit(self.statusupimg, (350,200))
         self.c = self.screen.blit(self.statusupimg, (350,300))
@@ -81,22 +110,6 @@ class Status():
         
         self.screen.blit(self.weaponslot,(950,50))
         
+        self.weapondraw()
         self.statusup()
-        
-        
-
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        self.weaponselection()

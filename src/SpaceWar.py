@@ -16,7 +16,7 @@ class SpaceWar():
     statusActivation = 0
     
     
-    def __init__(self) -> None:
+    def __init__(self):
         pygame.init()
         pygame.display.set_caption("SpaceWar")
         self.clock = pygame.time.Clock()
@@ -31,7 +31,6 @@ class SpaceWar():
         for event in pygame.event.get():
             if event.type == QUIT:#닫기버튼
                 self.run = False
-                
             if event.type == pygame.KEYDOWN:#키를 눌렀을때
                 if event.key == pygame.K_ESCAPE:
                     self.run = False   
@@ -40,10 +39,8 @@ class SpaceWar():
                         self.statusActivation = 1
                     else:
                         self.statusActivation = 0
-                    
         self.run = self.spaceship.gameover()
         
-
     def loop(self):
         while self.run:
             self.eventkey() 

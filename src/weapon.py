@@ -7,7 +7,7 @@ class Weapon():
         if type == 0:
             self.img = pygame.image.load('./images/machinegun.png').convert_alpha()
         elif type == 1:
-            self.img = pygame.image.load('./images/machinegun.png').convert_alpha()
+            self.img = pygame.image.load('./images/ragerrun.png').convert_alpha()
         elif type == 2:
             self.img = pygame.image.load('./images/machinegun.png').convert_alpha()
         elif type == 3:

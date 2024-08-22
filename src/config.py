@@ -2,11 +2,11 @@
 
 class Confing():
     spaceship = {
-    'HP':100,
-    'maxHP':100,
-    'level':0,
+    'HP':50,
+    'maxHP':50,
+    'level':20,
     'reincarnation':0,
-    'damage':20,
+    'damage':10,
     'speed':3,
     'defense':0,
     'attackspeed':1000,
