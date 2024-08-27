@@ -16,6 +16,7 @@ class Confing():
     'point':2000,
     'weapontype':0,
     'weaponlevel':0,
+    'r':100,
     }
     
     redspaceship = {

@@ -18,9 +18,9 @@ class Arctutus():
         self.img_redspaceship = pygame.transform.scale(img_redspaceship, (150,75))
         
     def redspaceshipmove(self):        
-        if pygame.time.get_ticks() - self.summontime >= 2000:
+        if pygame.time.get_ticks() - self.summontime >= 100:
             self.summontime = pygame.time.get_ticks()
-            self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700))))
+            self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700)),self.spaceship.con['weapontype']))
 
         for i, ship in enumerate(self.redspaceships):
             if ship.draw():
@@ -40,7 +40,6 @@ class Arctutus():
                         if self.dam < 1:
                             self.dam = 1
                         self.spaceship.con['HP'] -= self.dam
-                        print(self.dam)
                         del self.redspaceships[i] 
                         
     def weapondrop(self):

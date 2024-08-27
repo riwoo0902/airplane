@@ -2,7 +2,7 @@ import pygame
 
 from rager import *
 from config import *
-
+from radioactive import*
 class Spaceship():
     
     
@@ -31,6 +31,10 @@ class Spaceship():
         self.rec.y = 350
         self.lagertime1 = 0
         self.lagertime2 = 0
+        self.weaponattackspeedeffect = 1
+        self.Radioactiverecx = self.rec.x
+        self.Radioactiverecy = self.rec.y
+        
         
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
@@ -52,31 +56,42 @@ class Spaceship():
         if self.rec.y >650:
             self.rec.y = 650
         
-        if key_pressed[pygame.K_SPACE]:
-            self.lagertime2 =pygame.time.get_ticks()
-           
-            if self.lagertime2 - self.lagertime1 >= self.con['attackspeed']:
-                self.lagertime1 =pygame.time.get_ticks()
-                self.ragers.append(rager(self.screen,(self.rec.x,self.rec.y+54))) 
-        else:
-            self.lagertime2 =pygame.time.get_ticks()
+        if self.con['weapontype'] != 3:
+            if key_pressed[pygame.K_SPACE]:
+                self.lagertime2 =pygame.time.get_ticks()
+                
+                if self.con['weapontype'] == 1:
+                    self.weaponattackspeedeffect = 2                                  
+                elif self.con['weapontype'] == 2:                                      
+                    self.weaponattackspeedeffect = 0.8  
+                elif self.con['weapontype'] == 0:   
+                    self.weaponattackspeedeffect = 1
+                if self.lagertime2 - self.lagertime1 >= self.con['attackspeed']/self.weaponattackspeedeffect:
+                    self.lagertime1 =pygame.time.get_ticks()
+                    self.ragers.append(rager(self.screen,(self.rec.x,self.rec.y+54),self.con['weapontype'])) 
+            else:
+                self.lagertime2 =pygame.time.get_ticks()
     def ragermove(self):
         for i, rager in enumerate(self.ragers):
             if rager.draw():  
-                del self.ragers[i] 
-            else:
-                pass   
-    def checkCollision(self, ragers,damage): #충돌했는지 확인
-        for i, arr in enumerate(ragers):            
-            if self.rec.colliderect(arr.rec):
-                centerx = arr.rec.centerx
-                centery = arr.rec.centery
-                self.hp -= self.con['damage']
-                return centerx,centery,i
-        return None,None,None
-    
-    def drawhp(self):
+                del self.ragers[i]  
+
+    def radioactivecontamination(self):
+        if self.con['weapontype'] == 3:
+            self.Radioactiverecx = self.rec.x
+            self.Radioactiverecy = self.rec.y
+            Radioactive.radioactivecontamination(self)
         
+        
+        
+        
+        
+        
+        
+        
+        
+
+    def drawhp(self):
         self.img_hp = pygame.transform.scale(self.hpimg ,(((self.con['HP']/self.con['maxHP'])*300), 25))  
         self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
         self.Text = self.Font.render("level:" + str(self.con['level']), True, (120,120,120))
@@ -85,27 +100,42 @@ class Spaceship():
         self.screen.blit(self.img_hp, (20,30))                             
         self.screen.blit(self.Text, (400,20))
         self.screen.blit(self.Text2, (600,20))
-        
-        
+    
+    
     def levelup(self):
         self.con['experience'] += 1
         if self.con['level']+2 <= self.con['experience']:
             self.con['experience'] -= self.con['level']+2
             self.con['level'] += 1
             self.con['point'] += self.con['luck']
+            self.con['point'] += round(self.con['point'])
+    
     
     def gameover(self):
         if self.con['HP'] <= 0:
             return False
         return True
     
+    
+    
+    
+
+    
     def draw(self):
         self.con['HP'] += self.con['reincarnation']
         if self.con['HP'] > self.con['maxHP']:
             self.con['HP'] = self.con['maxHP']
         self.eventkey()
+        self.radioactivecontamination()
         self.ragermove()
         self.screen.blit(self.img, self.rec)
-
         
-
+        
+        
+        
+        
+        
+        
+        
+        
+        

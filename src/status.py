@@ -1,5 +1,5 @@
 import pygame
-
+from radioactive import*
 class Status():
     def __init__(self, screen,rec,con):
         self.screen = screen
@@ -22,6 +22,8 @@ class Status():
         self.ragergun = pygame.transform.scale(self.ragergun, (230,60))
         self.radioactiveemitter = pygame.image.load('./images/radioactiveemitter.png').convert_alpha()
         self.radioactiveemitter = pygame.transform.scale(self.radioactiveemitter, (100,180))
+
+
     def statusup(self):
         pos = pygame.mouse.get_pos()
         statusupdown = [self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h]
@@ -71,14 +73,20 @@ class Status():
                 for l in range(3):
                     if  weaponselection[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
                         self.con['weapontype'] = l+1
-                        print(self.con['weapontype'])
-    def weapondraw(self):
-        pass
-    
-    
-    
-    
-    
+                        if self.con['weapontype'] == 3:
+                            Radioactive(self.screen)
+                        
+        else:
+            if self.con['weapontype'] == 1:
+                self.machinegun = pygame.transform.scale(self.machinegun, (340,340))
+                self.screen.blit(self.machinegun,(990,90))
+            elif self.con['weapontype'] == 2:
+                self.ragergun = pygame.transform.scale(self.ragergun, (345,90))
+                self.screen.blit(self.ragergun,(975,205))   
+            elif self.con['weapontype'] == 3:
+                self.radioactiveemitter = pygame.transform.scale(self.radioactiveemitter, (200,360))
+                self.screen.blit(self.radioactiveemitter,(1050,70))    
+            
                       
     def draw(self):
         self.screen.blit(self.img, (0,0))
@@ -110,6 +118,6 @@ class Status():
         
         self.screen.blit(self.weaponslot,(950,50))
         
-        self.weapondraw()
+        
         self.statusup()
         self.weaponselection()

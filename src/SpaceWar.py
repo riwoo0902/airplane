@@ -7,7 +7,7 @@ from spaceship import *
 from backgrond import *
 from arctutus import *
 from status import *
-from weapon import *
+from radioactive import*
 class SpaceWar():
     runstart = True
     run = True
@@ -44,7 +44,7 @@ class SpaceWar():
     def loop(self):
         while self.run:
             self.eventkey() 
-            self.bg.draw()
+            self.bg.draw() 
             if self.statusActivation == 1:
                 self.status.draw()
             else:
