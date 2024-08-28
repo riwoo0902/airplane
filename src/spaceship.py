@@ -2,7 +2,6 @@ import pygame
 
 from rager import *
 from config import *
-from radioactive import*
 class Spaceship():
     
     
@@ -14,27 +13,22 @@ class Spaceship():
         self.img = pygame.transform.scale(self.img, (250,150))
         self.hpimg = pygame.image.load("./images/hp.png")
         self.hpimg2 = pygame.image.load("./images/hp1.png")
+        self.img2 = pygame.image.load('./images/radioactivity.png').convert_alpha()
+        
+        self.img2.set_alpha(150)
         self.con = con        
-        # self.level = self.con['level']
-        # self.hp = self.con['HP']
-        # self.maxhp = self.con['maxHP']
-        # self.damage = self.con['damage']
-        # self.speed = self.con['speed']
-        # self.defense = self.con['defense']
-        # self.attackspeed = self.con['attackspeed']
-        # self.nol = self.con['nol']
-        # self.reincarnation = self.con['reincarnation']
-        # self.luck = self.con['luck']
-        # self.experience = self.con['experience']
         self.rec = self.img.get_rect()
         self.rec.x = 1000 
         self.rec.y = 350
         self.lagertime1 = 0
         self.lagertime2 = 0
         self.weaponattackspeedeffect = 1
-        self.Radioactiverecx = self.rec.x
-        self.Radioactiverecy = self.rec.y
-        
+        self.circle = 400
+        self.img2 = pygame.transform.scale(self.img2, (self.circle,self.circle))
+        self.radioactiverec = self.img2.get_rect()
+        self.radioactiverec.x = 2000
+        self.radioactiverec.y = 400
+        self.radioactivecircla = self.screen.blit(self.img2, (2000,400))
         
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
@@ -75,17 +69,25 @@ class Spaceship():
         for i, rager in enumerate(self.ragers):
             if rager.draw():  
                 del self.ragers[i]  
-
-    def radioactivecontamination(self):
+        
+    def radioactive(self):
         if self.con['weapontype'] == 3:
-            self.Radioactiverecx = self.rec.x
-            self.Radioactiverecy = self.rec.y
-            Radioactive.radioactivecontamination(self)
-        
-        
-        
-        
-        
+            if self.con['weaponlevel'] == 1:
+                self.circle = 400
+                
+            elif self.con['weaponlevel'] == 2:
+                self.circla = 600
+            elif self.con['weaponlevel'] == 3:
+                self.circla = 800
+            elif self.con['weaponlevel'] == 4:
+                self.circla = 1000
+            elif self.con['weaponlevel'] == 5:
+                self.circla = 1200
+            self.img2 = pygame.transform.scale(self.img2, (self.circle,self.circle))
+            self.radioactiverec.x = self.rec.x-int((self.circle - 250)/2)
+            self.radioactiverec.y = self.rec.y-int((self.circle - 150)/2)
+            self.radioactivecircla = self.screen.blit(self.img2, (self.radioactiverec.x,self.radioactiverec.y))  
+            
         
         
         
@@ -108,7 +110,7 @@ class Spaceship():
             self.con['experience'] -= self.con['level']+2
             self.con['level'] += 1
             self.con['point'] += self.con['luck']
-            self.con['point'] += round(self.con['point'])
+            self.con['point'] = round(self.con['point'])
     
     
     def gameover(self):
@@ -116,17 +118,12 @@ class Spaceship():
             return False
         return True
     
-    
-    
-    
-
-    
     def draw(self):
         self.con['HP'] += self.con['reincarnation']
         if self.con['HP'] > self.con['maxHP']:
             self.con['HP'] = self.con['maxHP']
         self.eventkey()
-        self.radioactivecontamination()
+        self.radioactive()
         self.ragermove()
         self.screen.blit(self.img, self.rec)
         

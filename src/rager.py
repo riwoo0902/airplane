@@ -6,7 +6,7 @@ class rager():
         self.weapontype = weapontype
         if self.weapontype == 2:
             self.img = pygame.image.load('./images/rager.png').convert_alpha()
-            self.img = pygame.transform.scale(self.img, (90,40)) #90,40
+            self.img = pygame.transform.scale(self.img, (90,40)) 
         else:
             self.img = pygame.image.load('./images/machinegunbullet.png').convert_alpha()
             self.img = pygame.transform.scale(self.img, (50,5))

@@ -7,7 +7,6 @@ from spaceship import *
 from backgrond import *
 from arctutus import *
 from status import *
-from radioactive import*
 class SpaceWar():
     runstart = True
     run = True

@@ -1,5 +1,4 @@
 import pygame
-from radioactive import*
 class Status():
     def __init__(self, screen,rec,con):
         self.screen = screen
@@ -73,9 +72,7 @@ class Status():
                 for l in range(3):
                     if  weaponselection[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
                         self.con['weapontype'] = l+1
-                        if self.con['weapontype'] == 3:
-                            Radioactive(self.screen)
-                        
+                        self.con['weaponlevel'] = 1
         else:
             if self.con['weapontype'] == 1:
                 self.machinegun = pygame.transform.scale(self.machinegun, (340,340))
