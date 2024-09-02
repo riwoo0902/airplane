@@ -23,8 +23,7 @@ class Spaceship():
         self.lagertime1 = 0
         self.lagertime2 = 0
         self.weaponattackspeedeffect = 1
-        self.circle = 400
-        self.img2 = pygame.transform.scale(self.img2, (self.circle,self.circle))
+        self.img2 = pygame.transform.scale(self.img2, (self.con['circle'],self.con['circle']))
         self.radioactiverec = self.img2.get_rect()
         self.radioactiverec.x = 2000
         self.radioactiverec.y = 400
@@ -72,20 +71,9 @@ class Spaceship():
         
     def radioactive(self):
         if self.con['weapontype'] == 3:
-            if self.con['weaponlevel'] == 1:
-                self.circle = 400
-                
-            elif self.con['weaponlevel'] == 2:
-                self.circla = 600
-            elif self.con['weaponlevel'] == 3:
-                self.circla = 800
-            elif self.con['weaponlevel'] == 4:
-                self.circla = 1000
-            elif self.con['weaponlevel'] == 5:
-                self.circla = 1200
-            self.img2 = pygame.transform.scale(self.img2, (self.circle,self.circle))
-            self.radioactiverec.x = self.rec.x-int((self.circle - 250)/2)
-            self.radioactiverec.y = self.rec.y-int((self.circle - 150)/2)
+            self.img2 = pygame.transform.scale(self.img2, (self.con['circle'],self.con['circle']))
+            self.radioactiverec.x = self.rec.x-int((self.con['circle'] - 250)/2)
+            self.radioactiverec.y = self.rec.y-int((self.con['circle'] - 150)/2)
             self.radioactivecircla = self.screen.blit(self.img2, (self.radioactiverec.x,self.radioactiverec.y))  
             
         

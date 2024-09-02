@@ -12,7 +12,7 @@ class rager():
             self.img = pygame.transform.scale(self.img, (50,5))
         self.rec = self.img.get_rect()
         self.rec.x = rec[0] 
-        self.rec.y = rec[1]
+        self.rec.y = rec[1]+20
 
         
     def draw(self):
@@ -22,7 +22,7 @@ class rager():
                 self.rec.x -= 7.5
                 self.screen.blit(self.img, self.rec)
             else:
-                self.screen.blit(self.img, (self.rec.x,self.rec.y+20))
+                self.screen.blit(self.img, (self.rec.x,self.rec.y))
                 self.rec.x -= 15
             return False
         else:

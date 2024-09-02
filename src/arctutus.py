@@ -16,11 +16,37 @@ class Arctutus():
         self.spaceship = spaceship
         img_redspaceship = pygame.image.load('./images/redspaceship.png').convert_alpha()
         self.img_redspaceship = pygame.transform.scale(img_redspaceship, (150,75))
+        self.Font = pygame.font.SysFont(None, 100)
+        self.Font2 = pygame.font.SysFont(None, 50)
+        self.summontime2 = 200
+        self.redsummoning = 0
+        self.stage = 0
+    def redspaceshipmove(self):   
+        if self.summontime2 > 0:     
+            if pygame.time.get_ticks() - self.summontime >= self.summontime2:
+                self.summontime2 -= 0
+                self.redsummoning += 1
+                self.summontime = pygame.time.get_ticks()
+                self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700)),self.spaceship.con['weapontype']))
+
+        if self.redsummoning == 1:
+            self.stage = 1
+            self.stagetime = pygame.time.get_ticks()
+            self.con.redspaceship['hp'] = 20
+        elif self.redsummoning == 222:
+            self.stage = 2
+            self.stagetime = pygame.time.get_ticks()
+            self.con.redspaceship['hp'] = 30
+        elif self.redsummoning == 444:
+            self.stage = 3
+            self.stagetime = pygame.time.get_ticks()
+            self.con.redspaceship['hp'] = 50
+        elif self.redsummoning == 666:
+            self.stage = 4
+            self.stagetime = pygame.time.get_ticks()
+            self.con.redspaceship['hp'] = 200
         
-    def redspaceshipmove(self):        
-        if pygame.time.get_ticks() - self.summontime >= 2000:
-            self.summontime = pygame.time.get_ticks()
-            self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700)),self.spaceship.con['weapontype']))
+
 
         for i, ship in enumerate(self.redspaceships):
             if ship.draw():
@@ -33,27 +59,23 @@ class Arctutus():
                     if ship.hp <= 0:
                         del self.redspaceships[i]
                         self.spaceship.levelup()
-                        self.weapondrop()
                         
                 elif centerx2 != None:
                     if ship.hp <= 0:
                         del self.redspaceships[i]
                         self.spaceship.levelup()
-                        self.weapondrop()
                 
-                else:
-                    if ship.rec.colliderect(self.spaceship.rec):
-                        self.dam = ship.hp - self.spaceship.con['defense']
-                        if self.dam < 1:
-                            self.dam = 1
-                        self.spaceship.con['HP'] -= self.dam
-                        del self.redspaceships[i] 
+                if ship.rec.colliderect(self.spaceship.rec):
+                    self.dam = ship.hp - self.spaceship.con['defense']
+                    if self.dam < 1:
+                        self.dam = 1
+                    self.spaceship.con['HP'] -= self.dam
+                    del self.redspaceships[i]  
 
-                        
-    def weapondrop(self):
-        if random.randint(1,math.trunc(20000/math.trunc(self.spaceship.con['luck']))) == 1:
-            print('weapondrop')       
-                        
     def draw(self):
         self.redspaceshipmove()
-        
+        if pygame.time.get_ticks() - self.stagetime < 3000:
+            self.Text = self.Font.render(f"stage {self.stage}", True, (255,255,255))
+            self.screen.blit(self.Text, (600,350))
+        self.Text2 = self.Font2.render(f"stage: {self.stage}", True, (120,120,120))
+        self.screen.blit(self.Text2, (1300,20))

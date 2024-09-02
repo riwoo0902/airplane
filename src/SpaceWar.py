@@ -14,7 +14,6 @@ class SpaceWar():
     HEIGHT = 800
     statusActivation = 0
     
-    
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("SpaceWar")

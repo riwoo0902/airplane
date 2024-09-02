@@ -22,11 +22,9 @@ class Status():
         self.radioactiveemitter = pygame.image.load('./images/radioactiveemitter.png').convert_alpha()
         self.radioactiveemitter = pygame.transform.scale(self.radioactiveemitter, (100,180))
 
-
     def statusup(self):
         pos = pygame.mouse.get_pos()
         statusupdown = [self.a,self.b,self.c,self.d,self.e,self.f,self.g,self.h]
-        
         for l in range(8):
             if  statusupdown[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
                 if self.con['point'] >= 1:
@@ -52,9 +50,7 @@ class Status():
                         self.con['luck'] = round(self.con['luck'],1)
                     self.con['point'] -= 1
                     self.con['point'] = round(self.con['point'])
-              
-              
-              
+
     def weaponselection(self):
         if self.con['weapontype'] == 0:
             if self.con['level'] >= 20:
@@ -68,7 +64,6 @@ class Status():
                 self.c2 = self.screen.blit(self.Text, (550,640))
                 pos = pygame.mouse.get_pos()
                 weaponselection = [self.a2,self.b2,self.c2]
-        
                 for l in range(3):
                     if  weaponselection[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
                         self.con['weapontype'] = l+1
@@ -83,8 +78,7 @@ class Status():
             elif self.con['weapontype'] == 3:
                 self.radioactiveemitter = pygame.transform.scale(self.radioactiveemitter, (200,360))
                 self.screen.blit(self.radioactiveemitter,(1050,70))    
-            
-                      
+
     def draw(self):
         self.screen.blit(self.img, (0,0))
         self.Text = self.Font.render("maxhp:" + str(self.con['maxHP']), True, (0,0,0))
@@ -103,7 +97,7 @@ class Status():
         self.screen.blit(self.Text, (100,700))
         self.Text = self.Font.render("luck:" + str(self.con['luck']), True, (0,0,0))
         self.screen.blit(self.Text, (500,100))
-        
+
         self.a = self.screen.blit(self.statusupimg, (350,100))
         self.b = self.screen.blit(self.statusupimg, (350,200))
         self.c = self.screen.blit(self.statusupimg, (350,300))
@@ -112,7 +106,7 @@ class Status():
         self.f = self.screen.blit(self.statusupimg, (350,600))
         self.g = self.screen.blit(self.statusupimg, (450,700))
         self.h = self.screen.blit(self.statusupimg, (670,100))
-        
+
         self.screen.blit(self.weaponslot,(950,50))
         
         
