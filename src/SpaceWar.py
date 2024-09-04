@@ -7,13 +7,14 @@ from spaceship import *
 from backgrond import *
 from arctutus import *
 from status import *
+from intro import *
 class SpaceWar():
     runstart = True
     run = True
     WIDTH = 1500
     HEIGHT = 800
     statusActivation = 0
-    
+
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("SpaceWar")
@@ -23,7 +24,8 @@ class SpaceWar():
         self.spaceship = Spaceship(self.screen,self.con.spaceship)
         self.actutus = Arctutus(self.screen,self.con,self.spaceship)
         self.bg = Backgrond(self.screen)
-        self.status = Status(self.screen,(0,0),self.con.spaceship)              
+        self.status = Status(self.screen,(0,0),self.con.spaceship) 
+        self.intro = Intro(self.screen)             
     #이벤트 확인 및 처리 함수
     def eventkey(self):
         for event in pygame.event.get():
@@ -38,7 +40,7 @@ class SpaceWar():
                     else:
                         self.statusActivation = 0
         self.run = self.spaceship.gameover()
-        
+
     def loop(self):
         while self.run:
             self.eventkey() 
@@ -53,4 +55,5 @@ class SpaceWar():
             self.clock.tick(200) 
 
 main = SpaceWar()
+main.intro.loop()
 main.loop()

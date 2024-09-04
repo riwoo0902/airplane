@@ -40,7 +40,7 @@ class Redspaceship():
         if self.rec.colliderect(radioactiverec):
             centerx2 = radioactiverec.x
             centery2 = radioactiverec.y
-            self.hp -= damage/100
+            self.hp -= damage/200
             return centerx2,centery2
         return None,None
 

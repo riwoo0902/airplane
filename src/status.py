@@ -29,9 +29,9 @@ class Status():
             if  statusupdown[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
                 if self.con['point'] >= 1:
                     if l == 0:
-                        self.con['maxHP'] += 5
+                        self.con['maxHP'] += 1
                     elif l == 1:
-                        self.con['damage'] += 1
+                        self.con['damage'] += 0.2
                     elif l == 2:
                         self.con['defense'] += 1
                     elif l == 3:
@@ -43,8 +43,8 @@ class Status():
                         self.con['nol'] += 0.001
                         self.con['nol'] = round(self.con['nol'],3)
                     elif l == 6:
-                        self.con['reincarnation'] += 0.001
-                        self.con['reincarnation'] = round(self.con['reincarnation'],3)
+                        self.con['reincarnation'] += 0.0001
+                        self.con['reincarnation'] = round(self.con['reincarnation'],4)
                     elif l == 7:
                         self.con['luck'] += 0.2
                         self.con['luck'] = round(self.con['luck'],1)
@@ -53,7 +53,7 @@ class Status():
 
     def weaponselection(self):
         if self.con['weapontype'] == 0:
-            if self.con['level'] >= 20:
+            if self.con['level'] >= 15:
                 self.screen.blit(self.machinegun,(450,150))
                 self.screen.blit(self.ragergun,(670,190))
                 self.screen.blit(self.radioactiveemitter,(550,440))
@@ -108,7 +108,7 @@ class Status():
         self.h = self.screen.blit(self.statusupimg, (670,100))
 
         self.screen.blit(self.weaponslot,(950,50))
-        
-        
+
+
         self.statusup()
         self.weaponselection()

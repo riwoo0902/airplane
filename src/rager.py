@@ -14,7 +14,7 @@ class rager():
         self.rec.x = rec[0] 
         self.rec.y = rec[1]+20
 
-        
+
     def draw(self):
         if (self.rec.x) > 0:  
             

@@ -3,8 +3,7 @@ import pygame
 from rager import *
 from config import *
 class Spaceship():
-    
-    
+
     ragers = []
     def __init__(self, screen,con):
         self.screen = screen
@@ -14,7 +13,6 @@ class Spaceship():
         self.hpimg = pygame.image.load("./images/hp.png")
         self.hpimg2 = pygame.image.load("./images/hp1.png")
         self.img2 = pygame.image.load('./images/radioactivity.png').convert_alpha()
-        
         self.img2.set_alpha(150)
         self.con = con        
         self.rec = self.img.get_rect()
@@ -28,7 +26,7 @@ class Spaceship():
         self.radioactiverec.x = 2000
         self.radioactiverec.y = 400
         self.radioactivecircla = self.screen.blit(self.img2, (2000,400))
-        
+
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
         if key_pressed[pygame.K_w]:
@@ -39,7 +37,7 @@ class Spaceship():
             self.rec.x -= self.con['speed'] 
         if key_pressed[pygame.K_d]:
             self.rec.x += self.con['speed'] 
-            
+
         if self.rec.x <0:
             self.rec.x = 0
         if self.rec.x >1250:
@@ -48,7 +46,7 @@ class Spaceship():
             self.rec.y = 0
         if self.rec.y >650:
             self.rec.y = 650
-        
+
         if self.con['weapontype'] != 3:
             if key_pressed[pygame.K_SPACE]:
                 self.lagertime2 =pygame.time.get_ticks()
@@ -68,30 +66,31 @@ class Spaceship():
         for i, rager in enumerate(self.ragers):
             if rager.draw():  
                 del self.ragers[i]  
-        
+
     def radioactive(self):
         if self.con['weapontype'] == 3:
             self.img2 = pygame.transform.scale(self.img2, (self.con['circle'],self.con['circle']))
             self.radioactiverec.x = self.rec.x-int((self.con['circle'] - 250)/2)
             self.radioactiverec.y = self.rec.y-int((self.con['circle'] - 150)/2)
             self.radioactivecircla = self.screen.blit(self.img2, (self.radioactiverec.x,self.radioactiverec.y))  
-            
-        
-        
-        
-        
+
+
+
+
+
 
     def drawhp(self):
-        self.img_hp = pygame.transform.scale(self.hpimg ,(((self.con['HP']/self.con['maxHP'])*300), 25))  
-        self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
-        self.Text = self.Font.render("level:" + str(self.con['level']), True, (120,120,120))
-        self.Text2 = self.Font.render("point:" + str(self.con['point']), True, (120,120,120))
-        self.screen.blit(self.img_hp2, (10,20))   
-        self.screen.blit(self.img_hp, (20,30))                             
-        self.screen.blit(self.Text, (400,20))
-        self.screen.blit(self.Text2, (600,20))
-    
-    
+        if self.con['HP'] > 0:
+            self.img_hp = pygame.transform.scale(self.hpimg ,(((self.con['HP']/self.con['maxHP'])*300), 25))  
+            self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(320, 45))
+            self.Text = self.Font.render("level:" + str(self.con['level']), True, (120,120,120))
+            self.Text2 = self.Font.render("point:" + str(self.con['point']), True, (120,120,120))
+            self.screen.blit(self.img_hp2, (10,20))   
+            self.screen.blit(self.img_hp, (20,30))                             
+            self.screen.blit(self.Text, (400,20))
+            self.screen.blit(self.Text2, (600,20))
+
+
     def levelup(self):
         self.con['experience'] += 1
         if self.con['level']+2 <= self.con['experience']:
@@ -105,7 +104,7 @@ class Spaceship():
         if self.con['HP'] <= 0:
             return False
         return True
-    
+
     def draw(self):
         self.con['HP'] += self.con['reincarnation']
         if self.con['HP'] > self.con['maxHP']:
@@ -114,13 +113,3 @@ class Spaceship():
         self.radioactive()
         self.ragermove()
         self.screen.blit(self.img, self.rec)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
