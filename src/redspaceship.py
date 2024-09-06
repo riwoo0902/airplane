@@ -1,8 +1,8 @@
 import pygame
 
 class Redspaceship():
-    
-    
+
+
     def __init__(self, screen,img,con,rec,weapontype):
         self.screen = screen
         self.img = img
@@ -18,8 +18,8 @@ class Redspaceship():
         self.weapondamageeffect = 0
         self.hpimg = pygame.image.load("./images/hp.png")
         self.hpimg2 = pygame.image.load("./images/hp1.png")
-        
-        
+
+
     def checkCollision(self, ragers,damage): #충돌했는지 확인
         for i, arr in enumerate(ragers):            
             if self.rec.colliderect(arr.rec):
@@ -31,7 +31,7 @@ class Redspaceship():
                     self.weapondamageeffect = 2
                 else:
                     self.weapondamageeffect = 1
-                    
+
                 self.hp -= damage * self.weapondamageeffect - self.defense
                 return centerx,centery,i
         return None,None,None

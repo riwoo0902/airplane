@@ -91,8 +91,8 @@ class Spaceship():
             self.screen.blit(self.Text2, (600,20))
 
 
-    def levelup(self):
-        self.con['experience'] += 1
+    def levelup(self,experience):
+        self.con['experience'] += experience
         if self.con['level']+2 <= self.con['experience']:
             self.con['experience'] -= self.con['level']+2
             self.con['level'] += 1
