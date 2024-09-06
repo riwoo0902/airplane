@@ -8,6 +8,7 @@ from backgrond import *
 from arctutus import *
 from status import *
 from intro import *
+from ending import *
 class SpaceWar():
     runstart = True
     run = True
@@ -25,9 +26,11 @@ class SpaceWar():
         self.actutus = Arctutus(self.screen,self.con,self.spaceship)
         self.bg = Backgrond(self.screen)
         self.status = Status(self.screen,(0,0),self.con.spaceship) 
-        self.intro = Intro(self.screen)             
+        self.intro = Intro(self.screen)            
+        self.ending = Ending(self.screen) 
     #이벤트 확인 및 처리 함수
     def eventkey(self):
+        self.run = self.spaceship.gameover()
         for event in pygame.event.get():
             if event.type == QUIT:#닫기버튼
                 self.run = False
@@ -39,7 +42,6 @@ class SpaceWar():
                         self.statusActivation = 1
                     else:
                         self.statusActivation = 0
-        self.run = self.spaceship.gameover()
 
     def loop(self):
         while self.run:
@@ -57,3 +59,4 @@ class SpaceWar():
 main = SpaceWar()
 main.intro.loop()
 main.loop()
+main.ending.loop()

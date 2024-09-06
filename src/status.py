@@ -43,7 +43,7 @@ class Status():
                         self.con['nol'] += 0.001
                         self.con['nol'] = round(self.con['nol'],3)
                     elif l == 6:
-                        self.con['reincarnation'] += 0.0001
+                        self.con['reincarnation'] += 0.0005
                         self.con['reincarnation'] = round(self.con['reincarnation'],4)
                     elif l == 7:
                         self.con['luck'] += 0.2
