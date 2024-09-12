@@ -9,7 +9,7 @@ class Spaceship():
         self.screen = screen
         self.Font = pygame.font.SysFont(None, 50)
         self.img = pygame.image.load('./images/spaceship.png').convert_alpha()
-        self.img = pygame.transform.scale(self.img, (250,150))
+        self.img = pygame.transform.scale(self.img, (300,100))               #1280 387
         self.hpimg = pygame.image.load("./images/hp.png")
         self.hpimg2 = pygame.image.load("./images/hp1.png")
         self.img2 = pygame.image.load('./images/radioactivity.png').convert_alpha()
@@ -26,7 +26,10 @@ class Spaceship():
         self.radioactiverec.x = 2000
         self.radioactiverec.y = 400
         self.radioactivecircla = self.screen.blit(self.img2, (2000,400))
-
+        self.levelupsound = pygame.mixer.Sound(f'./sound/levelup.wav')
+        self.machinegunsound = pygame.mixer.Sound(f'./sound/machinegun.wav')
+        self.lasergunsound = pygame.mixer.Sound(f'./sound/laser.wav')
+ 
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
         if key_pressed[pygame.K_w]:
@@ -40,12 +43,12 @@ class Spaceship():
 
         if self.rec.x <0:
             self.rec.x = 0
-        if self.rec.x >1250:
-            self.rec.x = 1250
+        if self.rec.x >1200:
+            self.rec.x = 1200
         if self.rec.y <0:
             self.rec.y = 0
-        if self.rec.y >650:
-            self.rec.y = 650
+        if self.rec.y >700:
+            self.rec.y = 700
 
         if self.con['weapontype'] != 3:
             if key_pressed[pygame.K_SPACE]:
@@ -59,7 +62,11 @@ class Spaceship():
                     self.weaponattackspeedeffect = 1
                 if self.lagertime2 - self.lagertime1 >= self.con['attackspeed']/self.weaponattackspeedeffect:
                     self.lagertime1 =pygame.time.get_ticks()
-                    self.ragers.append(rager(self.screen,(self.rec.x,self.rec.y+54),self.con['weapontype'])) 
+                    self.ragers.append(rager(self.screen,(self.rec.x,self.rec.y+45),self.con['weapontype'])) 
+                    if self.con['weapontype'] == 2:
+                        self.lasergunsound.play()
+                    else:
+                        self.machinegunsound.play()
             else:
                 self.lagertime2 =pygame.time.get_ticks()
     def ragermove(self):
@@ -73,11 +80,6 @@ class Spaceship():
             self.radioactiverec.x = self.rec.x-int((self.con['circle'] - 250)/2)
             self.radioactiverec.y = self.rec.y-int((self.con['circle'] - 150)/2)
             self.radioactivecircla = self.screen.blit(self.img2, (self.radioactiverec.x,self.radioactiverec.y))  
-
-
-
-
-
 
     def drawhp(self):
         if self.con['HP'] > 0:
@@ -98,7 +100,7 @@ class Spaceship():
             self.con['level'] += 1
             self.con['point'] += self.con['luck']
             self.con['point'] = round(self.con['point'])
-    
+            self.levelupsound.play()
     
     def gameover(self):
         if self.con['HP'] <= 0:
@@ -113,3 +115,10 @@ class Spaceship():
         self.radioactive()
         self.ragermove()
         self.screen.blit(self.img, self.rec)
+        
+        
+        
+        
+        
+        
+        

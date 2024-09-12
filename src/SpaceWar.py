@@ -13,7 +13,7 @@ class SpaceWar():
     runstart = True
     run = True
     WIDTH = 1500
-    HEIGHT = 800
+    HEIGHT = 800 
     statusActivation = 0
 
     def __init__(self):
@@ -25,9 +25,11 @@ class SpaceWar():
         self.spaceship = Spaceship(self.screen,self.con.spaceship)
         self.actutus = Arctutus(self.screen,self.con,self.spaceship)
         self.bg = Backgrond(self.screen)
-        self.status = Status(self.screen,(0,0),self.con.spaceship) 
-        self.intro = Intro(self.screen)            
-        self.ending = Ending(self.screen) 
+        self.status = Status(self.screen,(0,0),self.con.spaceship)
+        self.intro = Intro(self.screen)
+        self.ending = Ending(self.screen)
+        pygame.mixer.music.load(f'./sound/spacebg.wav')
+        
     #이벤트 확인 및 처리 함수
     def eventkey(self):
         self.run = self.spaceship.gameover()
@@ -38,23 +40,24 @@ class SpaceWar():
                 if event.key == pygame.K_ESCAPE:
                     self.run = False   
                 if event.key == pygame.K_e:
-                    if self.statusActivation == 0:
+                    if self.statusActivation == 0:     
                         self.statusActivation = 1
                     else:
                         self.statusActivation = 0
 
     def loop(self):
+        pygame.mixer.music.play(-1)
         while self.run:
-            self.eventkey() 
-            self.bg.draw() 
+            self.eventkey()
+            self.bg.draw()
             if self.statusActivation == 1:
                 self.status.draw()
             else:
                 self.actutus.draw()
-                self.spaceship.draw()    
+                self.spaceship.draw()
             self.spaceship.drawhp()
-            pygame.display.update() 
-            self.clock.tick(200) 
+            pygame.display.update()
+            self.clock.tick(200)
 
 main = SpaceWar()
 main.intro.loop()

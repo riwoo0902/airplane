@@ -16,6 +16,7 @@ class Backgrond():
         
         self.update_delay = 0
         
+
             
     def draw(self):
         self.update_delay += 1
@@ -30,4 +31,5 @@ class Backgrond():
             
         self.screen.blit(self.img, self.rec)
         self.screen.blit(self.img, self.rec2)   
+        
         

@@ -8,14 +8,14 @@ import math
 class Arctutus():
     redspaceships = []
     summontime = 0
+    summontime3 = 0
     experience = 0
     dam = 0
     def __init__(self,screen,con,spaceship):
         self.screen = screen
         self.con = con
         self.spaceship = spaceship
-        img_redspaceship = pygame.image.load('./images/redspaceship.png').convert_alpha()
-        self.img_redspaceship = pygame.transform.scale(img_redspaceship, (150,75))
+        
         self.Font = pygame.font.SysFont(None, 100)
         self.Font2 = pygame.font.SysFont(None, 50)
         self.summontime2 = 2000
@@ -23,13 +23,19 @@ class Arctutus():
         self.stage = 0
         self.stagetime = 0
         self.giveexp = 1
+        self.crashingsound = pygame.mixer.Sound(f'./sound/crashing.wav')
     def redspaceshipmove(self):
         if self.summontime2 > 0:
             if pygame.time.get_ticks() - self.summontime >= self.summontime2:
                 self.summontime2 -= 3
                 self.redsummoning += 1
                 self.summontime = pygame.time.get_ticks()
-                self.redspaceships.append(Redspaceship(self.screen,self.img_redspaceship,self.con.redspaceship,(-225,random.randint(50,700)),self.spaceship.con['weapontype']))
+                self.redspaceships.append(Redspaceship(self.screen,self.con.redspaceship,(-225,random.randint(50,700)),self.spaceship.con['weapontype'],'normal'))
+
+        if pygame.time.get_ticks() - self.summontime3 >= 10000:
+            self.summontime3 = pygame.time.get_ticks()
+            self.redspaceships.append(Redspaceship(self.screen,self.con.redspaceship,(-400,random.randint(0,700)),self.spaceship.con['weapontype'],'meteorite'))
+
 
         if self.redsummoning == 1:
             self.stage = 1
@@ -96,7 +102,13 @@ class Arctutus():
                         self.dam = 1
                     self.spaceship.con['HP'] -= self.dam
                     del self.redspaceships[i]  
-
+                    self.crashingsound.play()
+        
+            
+    
+        
+        
+        
     def draw(self):
         self.redspaceshipmove()
         if pygame.time.get_ticks() - self.stagetime < 3000:
