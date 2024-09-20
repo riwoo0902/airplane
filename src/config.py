@@ -1,24 +1,23 @@
 class Confing():
     spaceship = {
-    'HP':1,
-    'maxHP':100000,
+    'HP':50,
+    'maxHP':500000000,
     'level':1,
-    'reincarnation':100,
-    'damage':100 ,
-    'speed':7,
-    'defense':5000,
-    'attackspeed':100,
+    'reincarnation':10000,
+    'damage':10000,
+    'speed':3,
+    'defense':0,
+    'attackspeed':1000,
     'nol': 1, #발사개수 
     'luck':5,
     'experience':0,
-    'point':1000000000000000000000,
+    'point':0,
     'weapontype':0,
-    'circle':600,
+    'circle':650,
     }
     
     redspaceship = {
         'hp':10,
-        'damage': 1,
+        'damage': 5,
         'speed':3,
-        'defense':0,
     }

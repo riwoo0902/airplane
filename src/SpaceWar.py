@@ -29,7 +29,7 @@ class SpaceWar():
         self.intro = Intro(self.screen)
         self.ending = Ending(self.screen)
         pygame.mixer.music.load(f'./sound/spacebg.wav')
-        
+        pygame.mixer.music.set_volume(100)
     #이벤트 확인 및 처리 함수
     def eventkey(self):
         self.run = self.spaceship.gameover()
@@ -51,14 +51,14 @@ class SpaceWar():
             self.eventkey()
             self.bg.draw()
             if self.statusActivation == 1:
-                self.status.draw()
+                self.status.draw()  
             else:
                 self.actutus.draw()
                 self.spaceship.draw()
             self.spaceship.drawhp()
             pygame.display.update()
             self.clock.tick(200)
-
+        pygame.mixer.music.pause()  
 main = SpaceWar()
 main.intro.loop()
 main.loop()

@@ -28,8 +28,9 @@ class Spaceship():
         self.radioactivecircla = self.screen.blit(self.img2, (2000,400))
         self.levelupsound = pygame.mixer.Sound(f'./sound/levelup.wav')
         self.machinegunsound = pygame.mixer.Sound(f'./sound/machinegun.wav')
+        self.machinegunsound.set_volume(0.2)
         self.lasergunsound = pygame.mixer.Sound(f'./sound/laser.wav')
- 
+        
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
         if key_pressed[pygame.K_w]:
@@ -106,7 +107,26 @@ class Spaceship():
         if self.con['HP'] <= 0:
             return False
         return True
-
+    
+    
+    
+    def checkCollisiongr(self, greenragers,damage): #충돌했는지 확인
+        for i, greenrager in enumerate(greenragers):
+            if self.rec.colliderect(greenrager.rec):
+                centerx = greenrager.rec.centerx
+                centery = greenrager.rec.centery
+                if greenrager.type == 'greenrager':
+                    self.con['HP'] -= damage 
+                elif greenrager.type == 'energyball':
+                    self.con['HP'] -= damage *3
+                return centerx,centery,i
+        return None,None,None
+    
+    
+    
+    
+    
+    
     def draw(self):
         self.con['HP'] += self.con['reincarnation']
         if self.con['HP'] > self.con['maxHP']:
