@@ -27,6 +27,7 @@ class Arctutus():
         self.summonboss = 0
         self.crashingsound = pygame.mixer.Sound(f'./sound/crashing.wav')
         self.crashingsound.set_volume(0.5)
+        self.bossenergyballtime = 0
     def redspaceshipmove(self):
         if self.stage != 8:
             if self.summontime2 > 0:
@@ -50,7 +51,7 @@ class Arctutus():
         elif self.stage == 8:
             if self.summonboss == 0:
                 self.redspaceships.append(Redspaceship(self.screen,self.con.redspaceship,(-700,0),self.spaceship.con['weapontype'],'boss')) 
-                self.summonboss == 1
+                self.summonboss = 1
         if self.redsummoning == 1:
             self.stage = 1
             self.stagetime = pygame.time.get_ticks()
@@ -89,9 +90,12 @@ class Arctutus():
         elif self.redsummoning == 666:
             self.stage = 8
             self.stagetime = pygame.time.get_ticks()
-            self.con.redspaceship['hp'] = 10000
+            self.con.redspaceship['hp'] = 1000000
             self.giveexp = 8
-
+        self.stage = 8
+        self.stagetime = pygame.time.get_ticks()
+        self.con.redspaceship['hp'] = 1000000
+        self.giveexp = 8
         for i, ship in enumerate(self.redspaceships):
             if ship.draw():
                 del self.redspaceships[i] 
@@ -124,6 +128,12 @@ class Arctutus():
                         ship.summon('energyball')
                     del self.redspaceships[i]  
                     self.crashingsound.play()
+                
+                if ship.type == 'boss':
+                    if pygame.time.get_ticks() - self.bossenergyballtime >= 750:
+                        self.bossenergyballtime = pygame.time.get_ticks()
+                        ship.summon('bossenergyball',self.spaceship.rec.y,ship.rec.x)
+                        
                 
         for i, grager in enumerate(Redspaceship.greenragers):
             if grager.draw():

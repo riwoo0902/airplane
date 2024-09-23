@@ -30,7 +30,7 @@ class Spaceship():
         self.machinegunsound = pygame.mixer.Sound(f'./sound/machinegun.wav')
         self.machinegunsound.set_volume(0.2)
         self.lasergunsound = pygame.mixer.Sound(f'./sound/laser.wav')
-        
+        self.lasergunsound.set_volume(0.5)
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
         if key_pressed[pygame.K_w]:
@@ -127,10 +127,3 @@ class Spaceship():
         self.radioactive()
         self.ragermove()
         self.screen.blit(self.img, self.rec)
-        
-        
-        
-        
-        
-        
-        

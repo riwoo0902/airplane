@@ -32,8 +32,10 @@ class Status():
                         self.con['maxHP'] += 1
                     elif l == 1:
                         self.con['damage'] += 0.2
+                        self.con['damage'] = round(self.con['damage'],1)
                     elif l == 2:
                         self.con['defense'] += 0.1
+                        self.con['defense'] = round(self.con['defense'],1)
                     elif l == 3:
                         self.con['speed'] += 0.1
                         self.con['speed'] = round(self.con['speed'],1)
