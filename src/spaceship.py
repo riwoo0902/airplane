@@ -93,7 +93,6 @@ class Spaceship():
             self.screen.blit(self.Text, (400,20))
             self.screen.blit(self.Text2, (600,20))
 
-
     def levelup(self,experience):
         self.con['experience'] += experience
         if self.con['level']+2 <= self.con['experience']:
@@ -108,8 +107,6 @@ class Spaceship():
             return False
         return True
     
-    
-    
     def checkCollisiongr(self, greenragers,damage): #충돌했는지 확인
         for i, greenrager in enumerate(greenragers):
             if self.rec.colliderect(greenrager.rec):
@@ -118,14 +115,9 @@ class Spaceship():
                 if greenrager.type == 'greenrager':
                     self.con['HP'] -= damage 
                 elif greenrager.type == 'energyball':
-                    self.con['HP'] -= damage *3
+                    self.con['HP'] -= damage * 3
                 return centerx,centery,i
         return None,None,None
-    
-    
-    
-    
-    
     
     def draw(self):
         self.con['HP'] += self.con['reincarnation']

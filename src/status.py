@@ -38,7 +38,11 @@ class Status():
                         self.con['speed'] += 0.1
                         self.con['speed'] = round(self.con['speed'],1)
                     elif l == 4:
-                        self.con['attackspeed'] -= 0.5
+                        if self.con['attackspeed'] > 100:
+                            self.con['attackspeed'] -= 0.5
+                        elif self.con['attackspeed'] <= 100:
+                            self.con['attackspeed'] = 100
+                            self.con['point'] += 1
                     elif l == 5:
                         self.con['nol'] += 0.001
                         self.con['nol'] = round(self.con['nol'],3)

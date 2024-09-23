@@ -18,7 +18,11 @@ class Redspaceship():
         elif self.type == 'bomdship':
             img = pygame.image.load('./images/bomdspaceship.png').convert_alpha()
             self.img = pygame.transform.scale(img, (150,75))
-
+        elif self.type == 'boss':
+            img = pygame.image.load('./images/boss.png').convert_alpha()
+            self.img = pygame.transform.scale(img, (600,800))
+            
+            
         if self.type == 'normal':
             self.hp = self.con['hp']
         elif self.type == 'meteorite':
@@ -27,6 +31,8 @@ class Redspaceship():
             self.hp = self.con['hp']
         elif self.type == 'bomdship':
             self.hp = 1
+        elif self.type == 'boss':
+            self.type = self.con['hp']
         self.damage = self.con['damage']
         self.speed = self.con['speed']
         self.rec = self.img.get_rect()
@@ -67,7 +73,15 @@ class Redspaceship():
             self.attacktime = pygame.time.get_ticks()
             self.summon('greenrager')
     def summon(self,type):
-        self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y),self.con,type))
+        if type == 'energyball':
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',1))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',2))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',3))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',4))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',5))
+        else:
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,type,0))
+        
     def draw(self):
         if self.type == 'normal':
             self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.con['hp'])*100), 10))  
@@ -81,6 +95,9 @@ class Redspaceship():
         elif self.type == 'bomdship':
             self.img_hp = pygame.transform.scale(self.hpimg ,(100, 10))  
             self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(108, 18))
+        elif self.type == 'boss':
+            self.img_hp = pygame.transform.scale(self.hpimg ,(100, 10))  
+            self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(108, 18))
         self.screen.blit(self.img_hp2, (self.rec.x+30,self.rec.y-24))   
         self.screen.blit(self.img_hp, (self.rec.x+34,self.rec.y-20))     
          
@@ -88,6 +105,11 @@ class Redspaceship():
             if (self.rec.x) < 150:  
                 self.rec.x += self.speed/5
             self.attack()
+            self.screen.blit(self.img, self.rec)
+            return False
+        elif self.type == 'boss':
+            if (self.rec.x) < 300:  
+                self.rec.x += self.speed/5
             self.screen.blit(self.img, self.rec)
             return False
         else:
