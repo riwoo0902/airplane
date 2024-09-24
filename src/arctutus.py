@@ -28,6 +28,7 @@ class Arctutus():
         self.crashingsound = pygame.mixer.Sound(f'./sound/crashing.wav')
         self.crashingsound.set_volume(0.5)
         self.bossenergyballtime = 0
+        self.bossmeteoritteattacktime = 0
     def redspaceshipmove(self):
         if self.stage != 8:
             if self.summontime2 > 0:
@@ -56,51 +57,57 @@ class Arctutus():
             self.stage = 1
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 10
+            self.con.redspaceship['defense'] = 0
             self.giveexp = 1
         elif self.redsummoning == 50:
             self.stage = 2
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 15
+            self.con.redspaceship['defense'] = 1
             self.giveexp = 2
         elif self.redsummoning == 111:
             self.stage = 3
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 30
+            self.con.redspaceship['defense'] = 5
             self.giveexp = 3
         elif self.redsummoning == 222:
             self.stage = 4
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 60
+            self.con.redspaceship['defense'] = 10
             self.giveexp = 4
         elif self.redsummoning == 333:
             self.stage = 5
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 100
+            self.con.redspaceship['defense'] = 20
             self.giveexp = 5
         elif self.redsummoning == 444:
             self.stage = 6
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 300
+            self.con.redspaceship['defense'] = 60
             self.giveexp = 6
         elif self.redsummoning == 555:
             self.stage = 7
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 1000
+            self.con.redspaceship['defense'] = 200
             self.giveexp = 7
         elif self.redsummoning == 666:
             self.stage = 8
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 1000000
+            self.con.redspaceship['defense'] = 2000
             self.giveexp = 8
-        self.stage = 8
-        self.stagetime = pygame.time.get_ticks()
-        self.con.redspaceship['hp'] = 1000000
-        self.giveexp = 8
+
+        
         for i, ship in enumerate(self.redspaceships):
             if ship.draw():
                 del self.redspaceships[i] 
             else:
-                centerx,centery,rager_idex = ship.checkCollision(self.spaceship.ragers,self.spaceship.con['damage'])
+                centerx,centery,rager_idex = ship.checkCollision(self.spaceship.ragers,self.spaceship.con['damage'],self.spaceship.con['weapontype'])
                 centerx2,centery2 = ship.radioactivecirclacheckCollision(self.spaceship.radioactiverec,self.spaceship.con['damage'])
                 if centerx != None:#총알과 충돌
                     del self.spaceship.ragers[rager_idex]
@@ -130,10 +137,12 @@ class Arctutus():
                     self.crashingsound.play()
                 
                 if ship.type == 'boss':
-                    if pygame.time.get_ticks() - self.bossenergyballtime >= 750:
+                    if pygame.time.get_ticks() - self.bossenergyballtime >= 500:
                         self.bossenergyballtime = pygame.time.get_ticks()
-                        ship.summon('bossenergyball',self.spaceship.rec.y,ship.rec.x)
-                        
+                        ship.summon('bossenergyball',self.spaceship.rec,ship.rec.x)
+                    if pygame.time.get_ticks() - self.bossmeteoritteattacktime >= 5000:
+                        self.bossmeteoritteattacktime = pygame.time.get_ticks()
+                        ship.summon('bossmeteoritte',self.spaceship.rec,ship.rec.x)   
                 
         for i, grager in enumerate(Redspaceship.greenragers):
             if grager.draw():

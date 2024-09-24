@@ -73,7 +73,7 @@ class Status():
                 for l in range(3):
                     if  weaponselection[l].collidepoint(pos) and pygame.mouse.get_pressed()[0]:
                         self.con['weapontype'] = l+1
-                        self.con['weaponlevel'] = 1
+                        print(self.con['weapontype'])
         else:
             if self.con['weapontype'] == 1:
                 self.machinegun = pygame.transform.scale(self.machinegun, (340,340))

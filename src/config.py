@@ -20,4 +20,5 @@ class Confing():
         'hp':10,
         'damage': 5,
         'speed':3,
+        'defense':0,
     }

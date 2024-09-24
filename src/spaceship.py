@@ -57,9 +57,7 @@ class Spaceship():
                 
                 if self.con['weapontype'] == 1:
                     self.weaponattackspeedeffect = 2                                  
-                elif self.con['weapontype'] == 2:                                      
-                    self.weaponattackspeedeffect = 0.8  
-                elif self.con['weapontype'] == 0:   
+                else:  
                     self.weaponattackspeedeffect = 1
                 if self.lagertime2 - self.lagertime1 >= self.con['attackspeed']/self.weaponattackspeedeffect:
                     self.lagertime1 =pygame.time.get_ticks()
@@ -78,8 +76,8 @@ class Spaceship():
     def radioactive(self):
         if self.con['weapontype'] == 3:
             self.img2 = pygame.transform.scale(self.img2, (self.con['circle'],self.con['circle']))
-            self.radioactiverec.x = self.rec.x-int((self.con['circle'] - 250)/2)
-            self.radioactiverec.y = self.rec.y-int((self.con['circle'] - 150)/2)
+            self.radioactiverec.x = self.rec.x-int((self.con['circle'] - 300)/2)
+            self.radioactiverec.y = self.rec.y-int((self.con['circle'] - 100)/2)
             self.radioactivecircla = self.screen.blit(self.img2, (self.radioactiverec.x,self.radioactiverec.y))  
 
     def drawhp(self):
@@ -116,6 +114,10 @@ class Spaceship():
                     self.con['HP'] -= damage 
                 elif greenrager.type == 'energyball':
                     self.con['HP'] -= damage * 3
+                elif greenrager.type == 'bossenergyball':
+                    self.con['HP'] -= 1000
+                elif greenrager.type == 'bossmeteoritte':
+                    self.con['HP'] -= 5000    
                 return centerx,centery,i
         return None,None,None
     

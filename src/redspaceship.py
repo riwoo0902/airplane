@@ -35,6 +35,7 @@ class Redspaceship():
             self.hp = self.con['hp']
         self.damage = self.con['damage']
         self.speed = self.con['speed']
+        self.defense = self.con['defense']
         self.rec = self.img.get_rect()
         self.rec.x = rec[0]
         self.rec.y = rec[1]
@@ -46,20 +47,17 @@ class Redspaceship():
         self.img_hp = 0
         self.img_hp2 = 0
 
-    def checkCollision(self, ragers,damage): #충돌했는지 확인
+    def checkCollision(self, ragers,damage,weapontype): #충돌했는지 확인
+        self.weapontype = weapontype
         for i, arr in enumerate(ragers):
             if self.rec.colliderect(arr.rec):
                 centerx = arr.rec.centerx
                 centery = arr.rec.centery
-                if self.weapontype == 1:
-                    self.weapondamageeffect = 0.8
-                elif self.weapontype == 2:
-                    self.weapondamageeffect = 2
+                if self.weapontype == 2:
+                    self.hp -= (damage * 2) - self.defense
                 else:
-                    self.weapondamageeffect = 1
-
-                self.hp -= (damage * self.weapondamageeffect)-2000
-                print((damage * self.weapondamageeffect)-2000)
+                    self.hp -= damage - self.defense
+                
                 return centerx,centery,i
         return None,None,None
 
@@ -67,7 +65,7 @@ class Redspaceship():
         if self.rec.colliderect(radioactiverec):
             centerx2 = radioactiverec.x
             centery2 = radioactiverec.y
-            self.hp -= damage/50
+            self.hp -= damage/25
             return centerx2,centery2
         return None,None
 
@@ -75,7 +73,7 @@ class Redspaceship():
         if pygame.time.get_ticks() - self.attacktime >= 3000:
             self.attacktime = pygame.time.get_ticks()
             self.summon('greenrager')
-    def summon(self,type,spaceshiprecy,bossrecx):
+    def summon(self,type,spaceshiprec,bossrecx):
         if type == 'energyball':
             self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',1,None,None))
             self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',2,None,None))
@@ -83,7 +81,7 @@ class Redspaceship():
             self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',4,None,None))
             self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',5,None,None))
         else:
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,type,0,spaceshiprecy,bossrecx))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,type,0,spaceshiprec,bossrecx))
     def hpdraw(self):
         if self.type == 'normal':
             self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.con['hp'])*100), 10))  
@@ -106,10 +104,10 @@ class Redspaceship():
             self.screen.blit(self.img_hp2, (self.rec.x+30,self.rec.y-24))   
             self.screen.blit(self.img_hp, (self.rec.x+34,self.rec.y-20))
         elif self.type == 'boss':
-            self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.con['hp'])*1300), 30))  
-            self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(1308, 38))  
-            self.screen.blit(self.img_hp2, (100,700))   
-            self.screen.blit(self.img_hp, (104,704))
+            self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.con['hp'])*1300), 20))  
+            self.img_hp2 = pygame.transform.scale(self.hpimg2 ,(1308, 28))  
+            self.screen.blit(self.img_hp2, (100,740))   
+            self.screen.blit(self.img_hp, (104,744))
     def draw(self):
         if self.type == 'greenship':
             if (self.rec.x) < 150:  
