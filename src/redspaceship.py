@@ -1,5 +1,6 @@
 import pygame
 from greenreager import *
+from spaceship import *
 class Redspaceship():
     greenragers = []
     def __init__(self, screen,con,rec,weapontype,type):
@@ -20,9 +21,7 @@ class Redspaceship():
             self.img = pygame.transform.scale(img, (150,75))
         elif self.type == 'boss':
             img = pygame.image.load('./images/boss.png').convert_alpha()
-            self.img = pygame.transform.scale(img, (600,800))
-            
-            
+            self.img = pygame.transform.scale(img, (500,800))
         if self.type == 'normal':
             self.hp = self.con['hp']
         elif self.type == 'meteorite':
@@ -57,7 +56,6 @@ class Redspaceship():
                     self.hp -= (damage * 2) - self.defense
                 else:
                     self.hp -= damage - self.defense
-                
                 return centerx,centery,i
         return None,None,None
 
@@ -72,16 +70,16 @@ class Redspaceship():
     def attack(self):
         if pygame.time.get_ticks() - self.attacktime >= 3000:
             self.attacktime = pygame.time.get_ticks()
-            self.summon('greenrager')
-    def summon(self,type,spaceshiprec,bossrecx):
+            self.summon('greenrager',None,self.rec.x,0)
+    def summon(self,type,spaceshiprec,bossrecx,bossmeteorittedirection):
         if type == 'energyball':
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',1,None,None))
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',2,None,None))
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',3,None,None))
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',4,None,None))
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',5,None,None))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',1,None,None,None))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',2,None,None,None))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',3,None,None,None))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',4,None,None,None))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,'energyball',5,None,None,None))
         else:
-            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,type,0,spaceshiprec,bossrecx))
+            self.greenragers.append(Greenrager(self.screen,(self.rec.x,self.rec.y+30),self.con,type,0,spaceshiprec,bossrecx,bossmeteorittedirection))
     def hpdraw(self):
         if self.type == 'normal':
             self.img_hp = pygame.transform.scale(self.hpimg ,(((self.hp/self.con['hp'])*100), 10))  
@@ -117,7 +115,7 @@ class Redspaceship():
             self.hpdraw()
             return False
         elif self.type == 'boss':
-            if (self.rec.x) < -150:  
+            if (self.rec.x) < -200:  
                 self.rec.x += self.speed/5
             self.screen.blit(self.img, self.rec)
             self.hpdraw()

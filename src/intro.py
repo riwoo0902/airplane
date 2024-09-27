@@ -1,6 +1,7 @@
 import pygame
 
 class Intro():
+
     def __init__(self,screen):
         self.screen = screen
         self.introon = True
@@ -19,6 +20,7 @@ class Intro():
             self.texty += 1
         if self.texty == 800:
             self.stagetime = pygame.time.get_ticks()
+
     def operate(self):
             if pygame.time.get_ticks() - self.stagetime < 7000:
                 self.screen.blit(self.img, (0,0))
@@ -31,7 +33,8 @@ class Intro():
                 self.introon = False
             if event.type == pygame.KEYDOWN:#키를 눌렀을때
                 if event.key == pygame.K_TAB:
-                    self.introon = False   
+                    self.introon = False
+
     def loop(self):
         while self.introon:
             self.screen.fill((0,0,0))

@@ -29,6 +29,8 @@ class Arctutus():
         self.crashingsound.set_volume(0.5)
         self.bossenergyballtime = 0
         self.bossmeteoritteattacktime = 0
+        self.bossmeteorittedirection = 1
+        self.ending = True
     def redspaceshipmove(self):
         if self.stage != 8:
             if self.summontime2 > 0:
@@ -58,51 +60,58 @@ class Arctutus():
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 10
             self.con.redspaceship['defense'] = 0
+            self.con.redspaceship['damage'] = 2
             self.giveexp = 1
         elif self.redsummoning == 50:
             self.stage = 2
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 15
             self.con.redspaceship['defense'] = 1
+            self.con.redspaceship['damage'] = 3
             self.giveexp = 2
         elif self.redsummoning == 111:
+            self.redsummoning += 50
             self.stage = 3
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 30
             self.con.redspaceship['defense'] = 5
+            self.con.redspaceship['damage'] = 5
             self.giveexp = 3
         elif self.redsummoning == 222:
             self.stage = 4
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 60
             self.con.redspaceship['defense'] = 10
+            self.con.redspaceship['damage'] = 10
             self.giveexp = 4
         elif self.redsummoning == 333:
             self.stage = 5
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 100
             self.con.redspaceship['defense'] = 20
+            self.con.redspaceship['damage'] = 20
             self.giveexp = 5
         elif self.redsummoning == 444:
             self.stage = 6
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 300
             self.con.redspaceship['defense'] = 60
+            self.con.redspaceship['damage'] = 60
             self.giveexp = 6
         elif self.redsummoning == 555:
             self.stage = 7
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 1000
             self.con.redspaceship['defense'] = 200
+            self.con.redspaceship['damage'] = 200
             self.giveexp = 7
         elif self.redsummoning == 666:
             self.stage = 8
             self.stagetime = pygame.time.get_ticks()
             self.con.redspaceship['hp'] = 1000000
             self.con.redspaceship['defense'] = 2000
+            self.con.redspaceship['damage'] = 2000
             self.giveexp = 8
-
-        
         for i, ship in enumerate(self.redspaceships):
             if ship.draw():
                 del self.redspaceships[i] 
@@ -114,7 +123,9 @@ class Arctutus():
                     if ship.hp <= 0:
                         del self.redspaceships[i]
                         if ship.type == 'bomdship':
-                            ship.summon('energyball')
+                            ship.summon('energyball',self.spaceship.rec,ship.rec.x,0)
+                        elif ship.type == 'boss':   
+                            self.ending = 'happyending' 
                         else:
                             self.spaceship.levelup(self.giveexp)
 
@@ -122,28 +133,40 @@ class Arctutus():
                     if ship.hp <= 0:
                         del self.redspaceships[i]
                         if ship.type == 'bomdship':
-                            ship.summon('energyball')
+                            ship.summon('energyball',self.spaceship.rec,ship.rec.x,0)
+                        elif ship.type == 'boss':   
+                            self.ending = 'happyending' 
                         else:
                             self.spaceship.levelup(self.giveexp)
                         
                 if ship.rec.colliderect(self.spaceship.rec):#우주선과 충돌
-                    self.dam = ship.hp - self.spaceship.con['defense']
+                    if ship.type != 'boss':
+                        self.dam = ship.hp - self.spaceship.con['defense']
+                    else:
+                        self.dam = 500
                     if self.dam < 1:
                         self.dam = 1
                     self.spaceship.con['HP'] -= self.dam
                     if ship.type == 'bomdship':
-                        ship.summon('energyball')
-                    del self.redspaceships[i]  
+                        ship.summon('energyball',self.spaceship.rec,ship.rec.x,0)
+                    
+                    if ship.type != 'boss':    
+                        del self.redspaceships[i]  
                     self.crashingsound.play()
                 
                 if ship.type == 'boss':
                     if pygame.time.get_ticks() - self.bossenergyballtime >= 500:
                         self.bossenergyballtime = pygame.time.get_ticks()
-                        ship.summon('bossenergyball',self.spaceship.rec,ship.rec.x)
+                        ship.summon('bossenergyball',self.spaceship.rec,ship.rec.x,None)
                     if pygame.time.get_ticks() - self.bossmeteoritteattacktime >= 5000:
                         self.bossmeteoritteattacktime = pygame.time.get_ticks()
-                        ship.summon('bossmeteoritte',self.spaceship.rec,ship.rec.x)   
-                
+                        if self.bossmeteorittedirection == 1:
+                            ship.summon('bossmeteoritte',self.spaceship.rec,ship.rec.x,1)   
+                            self.bossmeteorittedirection = 2
+                        elif self.bossmeteorittedirection == 2:
+                            ship.summon('bossmeteoritte',self.spaceship.rec,ship.rec.x,2)   
+                            self.bossmeteorittedirection = 1
+                    
         for i, grager in enumerate(Redspaceship.greenragers):
             if grager.draw():
                 del Redspaceship.greenragers[i] 

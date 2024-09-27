@@ -31,6 +31,8 @@ class Spaceship():
         self.machinegunsound.set_volume(0.2)
         self.lasergunsound = pygame.mixer.Sound(f'./sound/laser.wav')
         self.lasergunsound.set_volume(0.5)
+        self.bossenergyball = 0
+        self.bossmeteoritte = 0
     def eventkey(self):            
         key_pressed = pygame.key.get_pressed()  
         if key_pressed[pygame.K_w]:
@@ -102,8 +104,8 @@ class Spaceship():
     
     def gameover(self):
         if self.con['HP'] <= 0:
-            return False
-        return True
+            return 'gameover'
+        return None
     
     def checkCollisiongr(self, greenragers,damage): #충돌했는지 확인
         for i, greenrager in enumerate(greenragers):
@@ -111,13 +113,19 @@ class Spaceship():
                 centerx = greenrager.rec.centerx
                 centery = greenrager.rec.centery
                 if greenrager.type == 'greenrager':
-                    self.con['HP'] -= damage 
+                    self.con['HP'] -= damage - self.con['defense']
                 elif greenrager.type == 'energyball':
-                    self.con['HP'] -= damage * 3
+                    self.con['HP'] -= (damage * 3) - self.con['defense']
                 elif greenrager.type == 'bossenergyball':
-                    self.con['HP'] -= 1000
+                    self.bossenergyball = 1000 - self.con['defense']
+                    if self.bossenergyball < 250:
+                        self.bossenergyball = 250
+                    self.con['HP'] -= self.bossenergyball
                 elif greenrager.type == 'bossmeteoritte':
-                    self.con['HP'] -= 5000    
+                    self.bossmeteoritte = 2000 - self.con['defense']
+                    if self.bossmeteoritte < 500:
+                        self.bossmeteoritte = 500
+                    self.con['HP'] -= self.bossmeteoritte
                 return centerx,centery,i
         return None,None,None
     
